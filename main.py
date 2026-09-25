@@ -8,9 +8,9 @@ from pydantic import BaseModel
 from pinecone import Pinecone, ServerlessSpec
 
 app = FastAPI(
-    title="Y.E.S. Sports Anomaly Lab",
-    description="Game DNA v2 Engine & Bayesian Season Decay Vector Intelligence",
-    version="6.0.0"
+    title="Y.E.S. Sports: Your Edge Sports",
+    description="Game DNA v2 Engine & Bayesian Season Decay Vector Intelligence - Your Edge Sports",
+    version="7.0.0"
 )
 
 app.add_middleware(
@@ -157,7 +157,7 @@ class GameDNABridgeEngine:
 def serve_dashboard():
     if os.path.exists("index.html"):
         return FileResponse("index.html")
-    return {"status": "Online", "message": "Backend running, index.html missing."}
+    return {"status": "Online", "brand": "Y.E.S. Sports: Your Edge Sports", "message": "Backend engine operational."}
 
 @app.get("/api/nfl/predict")
 def predict_nfl_game(home: str, away: str):
@@ -210,7 +210,7 @@ def analyze_matchup(req: MatchupRequest):
             })
 
         rationale = (
-            f"Game DNA v2 engine aligned against structural historical twin {meta.get('matchup')} ({meta.get('season')}), "
+            f"Y.E.S. Sports (Your Edge Sports) Game DNA v2 engine aligned against structural historical twin {meta.get('matchup')} ({meta.get('season')}), "
             f"yielding a {top_similarity}% cosine vector match. "
             f"Alt-Route Completeness Index scored at {req.alt_route_completeness}, factoring in Bayesian volatility dampening "
             f"to project an ATS outcome equivalent to {meta.get('ats_result')}. "
@@ -218,6 +218,7 @@ def analyze_matchup(req: MatchupRequest):
         )
 
         return {
+            "brand": "Y.E.S. Sports: Your Edge Sports",
             "target_matchup": f"{req.team_name} vs {req.opponent_name}",
             "top_twin_reference": meta.get("matchup"),
             "structural_similarity_pct": top_similarity,
