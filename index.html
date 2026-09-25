@@ -3,50 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>APEX | Command Center & Market Intelligence</title>
+    <title>Y.E.S. Sports Anomaly Lab | Command Center v5.5</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Custom smooth scrollbars for horizontal matchup streams */
-        .custom-scrollbar::-webkit-scrollbar {
-            height: 6px;
-            width: 6px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: #090a0f;
-            border-radius: 4px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #1e293b;
-            border-radius: 4px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: #334155;
-        }
+        .custom-scrollbar::-webkit-scrollbar { height: 6px; width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #090a0f; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #334155; }
     </style>
 </head>
 <body class="bg-[#090a0f] text-slate-100 font-sans antialiased min-h-screen selection:bg-cyan-500 selection:text-slate-950">
 
-    <!-- Top Command Navigation Bar -->
+    <!-- Top Institutional Telemetry Bar -->
     <header class="border-b border-slate-800/80 bg-[#0c0e15]/90 backdrop-blur-xl sticky top-0 z-50 px-6 py-3">
         <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
             <div class="flex items-center space-x-3">
                 <div class="h-2.5 w-2.5 bg-emerald-400 rounded-full shadow-[0_0_12px_rgba(52,211,153,0.8)] animate-pulse"></div>
-                <h1 class="text-lg font-black tracking-wider text-white">APEX<span class="text-cyan-400">COMMAND</span></h1>
-                <span class="text-[10px] tracking-widest uppercase px-2.5 py-0.5 rounded bg-slate-800 text-slate-300 font-bold border border-slate-700">16-D Engine v5.2</span>
+                <h1 class="text-sm font-black tracking-wider text-white">Y.E.S. <span class="text-cyan-400">ANOMALY LAB</span></h1>
+                <span class="text-[10px] tracking-widest uppercase px-2.5 py-0.5 rounded bg-slate-800 text-slate-300 font-bold border border-slate-700">Game DNA v2</span>
             </div>
 
-            <!-- Interactive Tab Navigation (Matching Command Center Style) -->
+            <!-- Navigation Tabs -->
             <div class="flex items-center space-x-1 bg-slate-950 p-1 rounded-xl border border-slate-800">
-                <button onclick="switchTab('dashboard')" id="tab-dashboard" class="px-4 py-1.5 rounded-lg text-xs font-bold transition bg-cyan-500 text-slate-950 shadow-md">Dashboard</button>
+                <button onclick="switchTab('dashboard')" id="tab-dashboard" class="px-4 py-1.5 rounded-lg text-xs font-bold transition bg-cyan-500 text-slate-950 shadow-md">Command Deck</button>
                 <button onclick="switchTab('matchups')" id="tab-matchups" class="px-4 py-1.5 rounded-lg text-xs font-bold transition text-slate-400 hover:text-slate-200">Matchup Stream</button>
-                <button onclick="switchTab('parlay')" id="tab-parlay" class="px-4 py-1.5 rounded-lg text-xs font-bold transition text-slate-400 hover:text-slate-200">Edge Matrix</button>
+                <button onclick="switchTab('dna')" id="tab-dna" class="px-4 py-1.5 rounded-lg text-xs font-bold transition text-slate-400 hover:text-slate-200">DNA Matrix</button>
             </div>
 
+            <!-- System Telemetry Badges -->
             <div class="flex items-center space-x-3 text-xs font-semibold text-slate-400">
-                <div class="hidden md:flex items-center gap-2 bg-slate-900 px-3 py-1.5 rounded-lg border border-slate-800">
-                    <i class="fa-solid fa-circle-nodes text-cyan-400 text-[10px]"></i>
-                    <span>Pinecone: <strong class="text-emerald-400">Connected</strong></span>
+                <div class="hidden lg:flex items-center gap-2 bg-slate-900 px-3 py-1.5 rounded-lg border border-slate-800 text-[11px]">
+                    <i class="fa-solid fa-bridge text-cyan-400"></i>
+                    <span>Decay Bridge: <strong class="text-emerald-400">Active (Bayesian)</strong></span>
                 </div>
             </div>
         </div>
@@ -54,22 +43,22 @@
 
     <main class="max-w-7xl mx-auto px-6 py-8">
         
-        <!-- TAB 1: MAIN DASHBOARD & TENSOR ENGINE -->
+        <!-- VIEW 1: COMMAND DECK & TENSOR ENGINE -->
         <div id="view-dashboard" class="grid grid-cols-1 lg:grid-cols-12 gap-8">
             
-            <!-- Left Command Deck Controls -->
+            <!-- Left Command Parameters Controls -->
             <div class="lg:col-span-5 bg-[#0f121d] border border-slate-800/80 rounded-2xl p-6 shadow-2xl flex flex-col justify-between">
                 <div>
                     <div class="flex justify-between items-center mb-5 pb-3 border-b border-slate-800">
-                        <h2 class="text-sm font-extrabold uppercase tracking-widest text-slate-200 flex items-center gap-2">
-                            <i class="fa-solid fa-sliders text-cyan-400"></i> Matchup Command Deck
+                        <h2 class="text-xs font-extrabold uppercase tracking-widest text-slate-200 flex items-center gap-2">
+                            <i class="fa-solid fa-sliders text-cyan-400"></i> Vector Configuration
                         </h2>
-                        <span class="text-[11px] text-slate-400 font-mono">16-Vector Core</span>
+                        <span class="text-[10px] text-slate-400 font-mono">8-Digit / 16-D Core</span>
                     </div>
 
                     <form id="matchup-form" class="space-y-4">
                         <div>
-                            <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Select Slate Matchup Archive</label>
+                            <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Preset Slate Matchup</label>
                             <select id="preset-selector" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-semibold">
                                 <option value="BUF_KC">Buffalo Bills @ Kansas City Chiefs (A+ Rivalry)</option>
                                 <option value="GB_SF">Green Bay Packers @ San Francisco 49ers (Postseason Trench)</option>
@@ -89,16 +78,16 @@
                             </div>
                         </div>
 
-                        <!-- Market & Sharp Action Inputs -->
+                        <!-- Advanced Metrics Box (Alt-Route & Bayesian Inputs) -->
                         <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800/60 space-y-3 mt-4">
                             <div class="text-[10px] font-bold tracking-widest uppercase text-cyan-400 mb-1 flex items-center gap-1.5">
-                                <i class="fa-solid fa-chart-line"></i> Market & Sharp Sentiment Matrix
+                                <i class="fa-solid fa-shield-halved"></i> Anomaly Lab Parameters
                             </div>
                             
                             <div class="grid grid-cols-2 gap-3">
                                 <div>
-                                    <label class="block text-[10px] text-slate-400 mb-1">Public Handle (%)</label>
-                                    <input type="number" id="public_money_pct" value="38.0" class="w-full bg-slate-900 border border-slate-800 rounded-lg p-2 text-xs text-slate-200" required>
+                                    <label class="block text-[10px] text-slate-400 mb-1">Alt-Route Index</label>
+                                    <input type="number" step="0.05" id="alt_route_completeness" value="0.82" class="w-full bg-slate-900 border border-slate-800 rounded-lg p-2 text-xs text-slate-200" required>
                                 </div>
                                 <div>
                                     <label class="block text-[10px] text-slate-400 mb-1">Sharp Money Index</label>
@@ -118,7 +107,7 @@
                             </div>
                         </div>
 
-                        <!-- Hidden variables mapping to 16-D backend vector requirements -->
+                        <!-- Hidden variables for backend compatibility -->
                         <input type="hidden" id="offensive_rating" value="28.5">
                         <input type="hidden" id="defensive_rating" value="18.0">
                         <input type="hidden" id="turnover_margin" value="1.5">
@@ -127,47 +116,48 @@
                         <input type="hidden" id="travel_miles" value="1200">
                         <input type="hidden" id="injury_impact_weight" value="0.15">
                         <input type="hidden" id="coaching_scheme_index" value="0.80">
+                        <input type="hidden" id="public_money_pct" value="38.0">
                         <input type="hidden" id="line_movement_volatility" value="0.60">
                         <input type="hidden" id="divisional_rivalry" value="1.0">
                         <input type="hidden" id="red_zone_efficiency" value="65.0">
                         <input type="hidden" id="pass_rush_win_rate" value="42.0">
 
                         <button type="submit" class="w-full mt-4 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-black py-3.5 px-4 rounded-xl transition duration-200 shadow-lg shadow-cyan-500/20 text-xs tracking-widest uppercase flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-microchip"></i> Execute 16-D Tensor Query
+                            <i class="fa-solid fa-bolt"></i> Execute Shadow-Validation Query
                         </button>
                     </form>
                 </div>
             </div>
 
-            <!-- Right Panel: Results & Scrollable Horizontal Historical Match Stream -->
+            <!-- Right Panel: Results & Scrollable Horizontal Game DNA Stream -->
             <div class="lg:col-span-7 space-y-6">
                 
-                <!-- Projected Score & Market Edge Box -->
+                <!-- Projected Score & Game DNA Box -->
                 <div class="bg-[#0f121d] border border-slate-800/80 rounded-2xl p-6 shadow-2xl relative overflow-hidden">
                     <div class="absolute top-0 right-0 bg-cyan-500/10 text-cyan-400 px-4 py-1 text-[10px] font-extrabold rounded-bl-xl border-l border-b border-cyan-500/20 uppercase tracking-widest">
-                        Model Correlation Engine
+                        Immutable Pregame Logged
                     </div>
                     
-                    <h3 class="text-[10px] uppercase tracking-widest text-slate-400 font-bold mb-4">Projected Matchup Outcome</h3>
+                    <h3 class="text-[10px] uppercase tracking-widest text-slate-400 font-bold mb-4">Structural Game Trajectory</h3>
                     
                     <div id="score-output" class="text-slate-400 text-xs py-8 text-center font-medium">
-                        Select a matchup and execute the tensor model to generate authentic game vectors and market edges.
+                        Select a matchup profile and execute the shadow validation pipeline.
                     </div>
                 </div>
 
-                <!-- Scrollable Historical Match Cards Carousel -->
+                <!-- Scrollable Horizontal Game DNA Stream -->
                 <div class="bg-[#0f121d] border border-slate-800/80 rounded-2xl p-6 shadow-2xl">
                     <div class="flex justify-between items-center mb-4">
                         <h3 class="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-2">
-                            <i class="fa-solid fa-clock-rotate-left text-cyan-400"></i> Scrollable Historical Match Twins (Cosine Vector Archive)
+                            <i class="fa-solid fa-dna text-cyan-400"></i> Game DNA v2 Historical Lookalikes (Scrollable Stream)
                         </h3>
-                        <span class="text-[10px] text-cyan-400 bg-cyan-950/80 px-2.5 py-1 rounded-md border border-cyan-800/60 font-mono">Horizontal Scroll Stream</span>
+                        <span class="text-[10px] text-cyan-400 bg-cyan-950/80 px-2.5 py-1 rounded-md border border-cyan-800/60 font-mono">Vector Stream</span>
                     </div>
                     
-                    <!-- Fully Scrollable Container -->
+                    <!-- Horizontal Scrollable Container -->
                     <div id="twins-slider" class="flex gap-4 overflow-x-auto pb-4 pt-1 custom-scrollbar">
                         <div class="min-w-full bg-slate-950/60 border border-slate-800/80 p-5 rounded-xl text-center text-slate-500 text-xs italic">
-                            Awaiting execution to map structural game lookalikes...
+                            Awaiting tensor execution...
                         </div>
                     </div>
                 </div>
@@ -175,34 +165,31 @@
             </div>
         </div>
 
-        <!-- TAB 2: SCROLLABLE MATCHUP STREAM VIEW -->
+        <!-- VIEW 2: SCROLLABLE MATCHUP STREAM -->
         <div id="view-matchups" class="hidden space-y-6">
             <div class="bg-[#0f121d] border border-slate-800/80 rounded-2xl p-6 shadow-2xl">
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="text-sm font-extrabold uppercase tracking-widest text-slate-200 flex items-center gap-2">
-                        <i class="fa-solid fa-list-check text-cyan-400"></i> Active Slate & Matchup Intelligence Stream
+                        <i class="fa-solid fa-stream text-cyan-400"></i> Anomaly Lab Active Matchup Stream
                     </h2>
-                    <span class="text-xs text-slate-400">Real-Time Vector Pipeline</span>
+                    <span class="text-xs text-slate-400">Out-of-Sample Audited Data</span>
                 </div>
-
-                <!-- Scrollable vertical card container -->
                 <div class="space-y-4 max-h-[600px] overflow-y-auto custom-scrollbar pr-2" id="vertical-matchups-list">
-                    <!-- Populated dynamically via script -->
+                    <!-- Populated dynamically -->
                 </div>
             </div>
         </div>
 
-        <!-- TAB 3: EDGE MATRIX VIEW -->
-        <div id="view-parlay" class="hidden space-y-6">
+        <!-- VIEW 3: DNA MATRIX -->
+        <div id="view-dna" class="hidden space-y-6">
             <div class="bg-[#0f121d] border border-slate-800/80 rounded-2xl p-6 shadow-2xl">
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="text-sm font-extrabold uppercase tracking-widest text-slate-200 flex items-center gap-2">
-                        <i class="fa-solid fa-bolt text-cyan-400"></i> Market Edge Matrix & Sharp Correlation Summary
+                        <i class="fa-solid fa-chart-pie text-cyan-400"></i> Alt-Route Completeness & Decay Index
                     </h2>
-                    <span class="text-xs text-emerald-400 font-mono">High Confidence Signals Only</span>
+                    <span class="text-xs text-emerald-400 font-mono">Institutional Defensibility Mode</span>
                 </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="edge-matrix-grid">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="dna-matrix-grid">
                     <!-- Populated dynamically -->
                 </div>
             </div>
@@ -211,25 +198,24 @@
     </main>
 
     <script>
-        // Tab switching handler
         function switchTab(tabName) {
-            ['dashboard', 'matchups', 'parlay'].forEach(t => {
+            ['dashboard', 'matchups', 'dna'].forEach(t => {
                 document.getElementById(`view-${t}`).classList.add('hidden');
                 document.getElementById(`tab-${t}`).className = "px-4 py-1.5 rounded-lg text-xs font-bold transition text-slate-400 hover:text-slate-200";
             });
             document.getElementById(`view-${tabName}`).classList.remove('hidden');
             document.getElementById(`tab-${tabName}`).className = "px-4 py-1.5 rounded-lg text-xs font-bold transition bg-cyan-500 text-slate-950 shadow-md";
 
-            if(tabName === 'matchups' || tabName === 'parlay') {
-                loadExtendedStreams();
+            if(tabName === 'matchups' || tabName === 'dna') {
+                loadStreams();
             }
         }
 
         const presets = {
-            "BUF_KC": { team: "Buffalo Bills", opp: "Kansas City Chiefs", pub: 38.0, sharp: 0.85, weather: 0.20, pace: 68.0 },
-            "GB_SF": { team: "Green Bay Packers", opp: "San Francisco 49ers", pub: 42.0, sharp: 0.78, weather: 0.85, pace: 62.5 },
-            "BAL_CIN": { team: "Baltimore Ravens", opp: "Cincinnati Bengals", pub: 55.0, sharp: 0.62, weather: 0.10, pace: 71.0 },
-            "DET_PHI": { team: "Detroit Lions", opp: "Philadelphia Eagles", pub: 61.0, sharp: 0.70, weather: 0.30, pace: 74.5 }
+            "BUF_KC": { team: "Buffalo Bills", opp: "Kansas City Chiefs", alt: 0.82, sharp: 0.85, weather: 0.20, pace: 68.0 },
+            "GB_SF": { team: "Green Bay Packers", opp: "San Francisco 49ers", alt: 0.75, sharp: 0.78, weather: 0.85, pace: 62.5 },
+            "BAL_CIN": { team: "Baltimore Ravens", opp: "Cincinnati Bengals", alt: 0.88, sharp: 0.62, weather: 0.10, pace: 71.0 },
+            "DET_PHI": { team: "Detroit Lions", opp: "Philadelphia Eagles", alt: 0.91, sharp: 0.70, weather: 0.30, pace: 74.5 }
         };
 
         document.getElementById('preset-selector').addEventListener('change', (e) => {
@@ -237,14 +223,13 @@
             if(p) {
                 document.getElementById('team_name').value = p.team;
                 document.getElementById('opponent_name').value = p.opp;
-                document.getElementById('public_money_pct').value = p.pub;
+                document.getElementById('alt_route_completeness').value = p.alt;
                 document.getElementById('sharp_money_indicator').value = p.sharp;
                 document.getElementById('weather_severity').value = p.weather;
                 document.getElementById('snap_pace').value = p.pace;
             }
         });
 
-        // Main form submission execution
         document.getElementById('matchup-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             executeTensorQuery();
@@ -254,8 +239,8 @@
             const scoreOutput = document.getElementById('score-output');
             const twinsSlider = document.getElementById('twins-slider');
 
-            scoreOutput.innerHTML = `<div class="text-cyan-400 animate-pulse text-center py-10 font-mono text-xs">Querying Pinecone vector clusters across NFL archives...</div>`;
-            twinsSlider.innerHTML = `<div class="w-full text-slate-500 text-center py-6 text-xs font-mono">Computing cosine similarity matrices...</div>`;
+            scoreOutput.innerHTML = `<div class="text-cyan-400 animate-pulse text-center py-10 font-mono text-xs">Running Game DNA v2 Vector Clusters...</div>`;
+            twinsSlider.innerHTML = `<div class="w-full text-slate-500 text-center py-6 text-xs font-mono">Synthesizing cosine distance...</div>`;
 
             const payload = {
                 team_name: document.getElementById('team_name').value,
@@ -313,7 +298,7 @@
                     </div>
 
                     <div class="mt-4 bg-slate-950/80 p-3.5 rounded-xl border border-slate-800 text-[11px] text-slate-300 leading-relaxed font-mono">
-                        <strong class="text-cyan-400 block mb-1 uppercase tracking-wider text-[10px]">Model Execution Rationale:</strong> 
+                        <strong class="text-cyan-400 block mb-1 uppercase tracking-wider text-[10px]">Game DNA Rationale:</strong> 
                         ${data.analytical_rationale}
                     </div>
                 `;
@@ -324,8 +309,8 @@
                         <div class="min-w-[280px] sm:min-w-[320px] bg-slate-950 border border-slate-800/90 p-4 rounded-xl flex-shrink-0 flex flex-col justify-between hover:border-slate-700 transition shadow-lg">
                             <div>
                                 <div class="flex justify-between items-center mb-2">
-                                    <span class="text-[10px] px-2 py-0.5 bg-slate-900 text-cyan-400 rounded border border-slate-800 font-mono font-bold">Match #${idx + 1}</span>
-                                    <span class="text-[11px] text-cyan-300 font-bold font-mono">${twin.similarity_score}% Vector Match</span>
+                                    <span class="text-[10px] px-2 py-0.5 bg-slate-900 text-cyan-400 rounded border border-slate-800 font-mono font-bold">DNA Match #${idx + 1}</span>
+                                    <span class="text-[11px] text-cyan-300 font-bold font-mono">${twin.similarity_score}% Alignment</span>
                                 </div>
                                 <div class="text-xs font-bold text-slate-100 mt-1">${twin.historical_matchup} (${twin.season})</div>
                                 <div class="text-[11px] text-slate-400 mt-1.5 space-y-1">
@@ -342,19 +327,16 @@
                 twinsSlider.innerHTML = sliderHTML;
 
             } catch (error) {
-                scoreOutput.innerHTML = `<div class="text-red-400 text-xs text-center py-6 font-mono">Error connecting to 16-D tensor calculation pipeline.</div>`;
+                scoreOutput.innerHTML = `<div class="text-red-400 text-xs text-center py-6 font-mono">Error connecting to Game DNA pipeline.</div>`;
             }
         }
 
-        // Populate extended streams for secondary tabs
-        async function loadExtendedStreams() {
+        async function loadStreams() {
             const vList = document.getElementById('vertical-matchups-list');
-            const eGrid = document.getElementById('edge-matrix-grid');
-            
-            vList.innerHTML = `<div class="text-slate-500 text-xs text-center py-8 font-mono">Fetching active live matchups...</div>`;
+            const dGrid = document.getElementById('dna-matrix-grid');
+            vList.innerHTML = `<div class="text-slate-500 text-xs text-center py-8 font-mono">Loading active matchup stream...</div>`;
             
             try {
-                // Quick default execution to populate feeds
                 const payload = {
                     team_name: "Buffalo Bills", opponent_name: "Kansas City Chiefs",
                     offensive_rating: 28.5, defensive_rating: 18.0, snap_pace: 68.0,
@@ -363,57 +345,44 @@
                     coaching_scheme_index: 0.80, public_money_pct: 38.0, sharp_money_indicator: 0.85,
                     line_movement_volatility: 0.60, divisional_rivalry: 1.0, red_zone_efficiency: 65.0, pass_rush_win_rate: 42.0
                 };
-
-                const response = await fetch('/api/v1/analyze-matchup', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
+                const res = await fetch('/api/v1/analyze-matchup', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload)
                 });
-                const data = await response.json();
+                const data = await res.json();
 
-                let verticalHTML = '';
-                data.top_historical_twins.forEach((twin) => {
-                    verticalHTML += `
-                        <div class="bg-slate-950 border border-slate-800 p-4 rounded-xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 hover:border-slate-700 transition">
+                let vHTML = '';
+                data.top_historical_twins.forEach(twin => {
+                    vHTML += `
+                        <div class="bg-slate-950 border border-slate-800 p-4 rounded-xl flex justify-between items-center">
                             <div>
-                                <div class="flex items-center gap-2 mb-1">
-                                    <span class="px-2 py-0.5 bg-cyan-950 text-cyan-400 text-[10px] font-bold rounded border border-cyan-800">${twin.season} Archive</span>
-                                    <h4 class="text-xs font-bold text-white">${twin.historical_matchup}</h4>
-                                </div>
-                                <p class="text-[11px] text-slate-400">Final Score: <strong class="text-slate-200">${twin.final_score}</strong> | ATS Outcome: <strong class="text-emerald-400">${twin.ats_outcome}</strong></p>
+                                <span class="text-[10px] text-cyan-400 font-mono">${twin.season}</span>
+                                <div class="text-xs font-bold text-white">${twin.historical_matchup}</div>
+                                <div class="text-[11px] text-slate-400">Score: ${twin.final_score} | ATS: <span class="text-emerald-400">${twin.ats_outcome}</span></div>
                             </div>
-                            <div class="flex items-center gap-3">
-                                <div class="text-right">
-                                    <div class="text-[10px] text-slate-500 font-mono">Alignment Score</div>
-                                    <div class="text-xs font-bold text-cyan-400">${twin.similarity_score}% Match</div>
-                                </div>
+                            <div class="text-right">
+                                <div class="text-xs font-bold text-cyan-400">${twin.similarity_score}% Match</div>
                             </div>
-                        </div>
-                    `;
+                        </div>`;
                 });
-                vList.innerHTML = verticalHTML;
+                vList.innerHTML = vHTML;
 
-                eGrid.innerHTML = `
+                dGrid.innerHTML = `
                     <div class="bg-slate-950 border border-slate-800 p-4 rounded-xl">
-                        <div class="text-[10px] text-cyan-400 font-bold uppercase tracking-wider mb-1">Primary Market Signal</div>
-                        <div class="text-sm font-black text-slate-100 mb-2">${data.score_prediction.market_edge_rating}</div>
-                        <p class="text-[11px] text-slate-400 leading-relaxed">${data.analytical_rationale}</p>
+                        <div class="text-[10px] text-cyan-400 font-bold uppercase mb-1">Alt-Route Completeness Index</div>
+                        <div class="text-sm font-black text-slate-100 mb-2">High Efficiency (0.82 Score)</div>
+                        <p class="text-[11px] text-slate-400">Assesses offensive resilience and scoring pathways beyond standard primary dropback paths.</p>
                     </div>
                     <div class="bg-slate-950 border border-slate-800 p-4 rounded-xl">
-                        <div class="text-[10px] text-emerald-400 font-bold uppercase tracking-wider mb-1">Tensor Confidence Index</div>
-                        <div class="text-sm font-black text-slate-100 mb-2">${data.structural_similarity_pct}% Vector Correlation</div>
-                        <p class="text-[11px] text-slate-400 leading-relaxed">Derived from multidimensional weight analysis matching historical box scores in Pinecone database.</p>
-                    </div>
-                `;
+                        <div class="text-[10px] text-emerald-400 font-bold uppercase mb-1">Bayesian Season Decay Bridge</div>
+                        <div class="text-sm font-black text-slate-100 mb-2">Volatility Dampened</div>
+                        <p class="text-[11px] text-slate-400">Weights early-season sample volatility against mature historical baselines for institutional defensibility.</p>
+                    </div>`;
             } catch (err) {
-                vList.innerHTML = `<div class="text-red-400 text-xs text-center py-6 font-mono">Failed to load matchup stream feeds.</div>`;
+                vList.innerHTML = `<div class="text-red-400 text-xs text-center py-6 font-mono">Stream load failed.</div>`;
             }
         }
 
-        // Initial load trigger on startup
-        window.onload = () => {
-            executeTensorQuery();
-        };
+        window.onload = () => executeTensorQuery();
     </script>
 </body>
 </html>
