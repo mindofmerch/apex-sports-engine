@@ -4,16 +4,16 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List, Optional
-from pinecone import Pinecone
+from pinecone import Pinecone, ServerlessSpec
 
-# 1. Initialize FastAPI App
+# 1. Initialize FastAPI Application
 app = FastAPI(
     title="APEX Sports Vector Matching Engine",
-    description="Phase 2 Engine: Pinecone Vector Database & k-NN Match Engine",
-    version="2.0.0"
+    description="Phase 2/3 Engine: Auto-Provisioned Pinecone Vector Database & Match Engine",
+    version="2.1.0"
 )
 
-# Enable CORS for frontend dashboard
+# Enable CORS for cross-origin frontend dashboard communication
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -22,25 +22,40 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# 2. Initialize Pinecone Client
-PINECONE_API_KEY = os.getenv("PINECONE_API_KEY", "")
+# 2. Initialize Pinecone Client & Ensure Index Exists
+PINECONE_API_KEY = os.getenv("PINECONE_API_KEY", "").strip()
 INDEX_NAME = "apex-sports-index"
+
+pinecone_index = None
 
 if PINECONE_API_KEY:
     try:
         pc = Pinecone(api_key=PINECONE_API_KEY)
+        
+        # Fetch list of active indexes
+        existing_indexes = [idx.name for idx in pc.list_indexes()]
+        
+        # Auto-create index if missing to prevent 404 errors
+        if INDEX_NAME not in existing_indexes:
+            print(f"Index '{INDEX_NAME}' not found. Auto-creating serverless index...")
+            pc.create_index(
+                name=INDEX_NAME,
+                dimension=8,
+                metric="cosine",
+                spec=ServerlessSpec(cloud="aws", region="us-east-1")
+            )
+            
         pinecone_index = pc.Index(INDEX_NAME)
+        print("Successfully authenticated and connected to Pinecone!")
     except Exception as e:
-        pinecone_index = None
-        print(f"Error connecting to Pinecone: {e}")
+        print(f"Error initializing Pinecone: {e}")
 else:
-    pinecone_index = None
-    print("Warning: PINECONE_API_KEY is not set.")
+    print("Warning: PINECONE_API_KEY environment variable is not set on Render.")
 
-# 3. Schemas
+# 3. Domain Schemas & Models
 class RawTeamStats(BaseModel):
     team_name: str
-    sport: str
+    sport: str  # e.g., 'NBA', 'NFL'
     offensive_rating: float
     defensive_rating: float
     pace: float
@@ -55,7 +70,7 @@ class SimilarityRequest(BaseModel):
     top_k: int = 5
     sport_filter: Optional[str] = None
 
-# 4. Helper Vector Engine
+# 4. Vector Normalization & Math Engine
 class VectorEngine:
     @staticmethod
     def normalize_stats(stats: RawTeamStats) -> np.ndarray:
@@ -115,7 +130,7 @@ def find_twin_games(request: SimilarityRequest):
     if not pinecone_index:
         raise HTTPException(
             status_code=500, 
-            detail="Pinecone is not initialized. Please set PINECONE_API_KEY in Render settings."
+            detail="Pinecone is not initialized. Please verify PINECONE_API_KEY in Render environment settings."
         )
 
     try:
@@ -123,7 +138,7 @@ def find_twin_games(request: SimilarityRequest):
         if request.sport_filter:
             metadata_filter = {"sport": {"$eq": request.sport_filter.upper()}}
 
-        # Query Pinecone Vector Index
+        # Query vector database
         query_response = pinecone_index.query(
             vector=request.target_vector,
             top_k=request.top_k,
@@ -159,3 +174,30 @@ def find_twin_games(request: SimilarityRequest):
 
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
+
+@app.post("/api/v1/seed-database")
+def seed_pinecone_data():
+    """Quick seeding route to populate the Pinecone index with sample games."""
+    if not pinecone_index:
+        raise HTTPException(status_code=500, detail="Pinecone index not initialized.")
+
+    sample_games = [
+        {
+            "id": "HIST_NBA_001",
+            "values": [0.85, 0.32, 0.65, 0.42, 0.78, 0.28, 0.10, 0.05],
+            "metadata": {"sport": "NBA", "date": "2024-03-12", "matchup": "GSW @ BOS", "final_score": "112 - 118"}
+        },
+        {
+            "id": "HIST_NBA_002",
+            "values": [0.78, 0.45, 0.52, 0.38, 0.71, 0.42, 0.25, 0.12],
+            "metadata": {"sport": "NBA", "date": "2023-11-20", "matchup": "LAL @ DEN", "final_score": "104 - 108"}
+        },
+        {
+            "id": "HIST_NFL_001",
+            "values": [0.72, 0.28, 0.81, 0.20, 0.65, 0.85, 0.40, 0.10],
+            "metadata": {"sport": "NFL", "date": "2024-01-14", "matchup": "BUF @ KC", "final_score": "24 - 27"}
+        }
+    ]
+
+    pinecone_index.upsert(vectors=sample_games)
+    return {"status": "Success", "message": f"Successfully seeded {len(sample_games)} games into Pinecone!"}
