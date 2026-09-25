@@ -227,3 +227,24 @@ def analyze_matchup(req: MatchupRequest):
 
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
+
+
+
+except Exception as e:
+            raise HTTPException(status_code=400, detail=str(e))
+
+# ==========================================
+# PASTE YOUR NEW NFL PREDICT ROUTE HERE:
+# ==========================================
+@app.get("/api/nfl/predict")
+def predict_nfl_game(home: str, away: str):
+    if not home or not away:
+        raise HTTPException(
+            status_code=400, 
+            detail="Please provide home and away query parameters (e.g., ?home=Chiefs&away=Bills)."
+        )
+    try:
+        result = process_current_nfl_game(home, away)
+        return result
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
