@@ -9,11 +9,10 @@ from pinecone import Pinecone, ServerlessSpec
 # 1. Initialize FastAPI Application
 app = FastAPI(
     title="APEX Sports Vector Matching Engine",
-    description="Phase 2/3 Engine: Auto-Provisioned Pinecone Vector Database & Match Engine",
-    version="2.1.0"
+    description="Phase 2/3 Engine: Auto-Provisioned & Auto-Seeded Vector Engine",
+    version="2.2.0"
 )
 
-# Enable CORS for cross-origin frontend dashboard communication
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -22,7 +21,26 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# 2. Initialize Pinecone Client & Ensure Index Exists
+# 2. Sample Data for Automatic Seeding
+SAMPLE_HISTORICAL_GAMES = [
+    {
+        "id": "HIST_NBA_001",
+        "values": [0.85, 0.32, 0.65, 0.42, 0.78, 0.28, 0.10, 0.05],
+        "metadata": {"sport": "NBA", "date": "2024-03-12", "matchup": "GSW @ BOS", "final_score": "112 - 118"}
+    },
+    {
+        "id": "HIST_NBA_002",
+        "values": [0.78, 0.45, 0.52, 0.38, 0.71, 0.42, 0.25, 0.12],
+        "metadata": {"sport": "NBA", "date": "2023-11-20", "matchup": "LAL @ DEN", "final_score": "104 - 108"}
+    },
+    {
+        "id": "HIST_NFL_001",
+        "values": [0.72, 0.28, 0.81, 0.20, 0.65, 0.85, 0.40, 0.10],
+        "metadata": {"sport": "NFL", "date": "2024-01-14", "matchup": "BUF @ KC", "final_score": "24 - 27"}
+    }
+]
+
+# 3. Initialize Pinecone Client & Auto-Seed
 PINECONE_API_KEY = os.getenv("PINECONE_API_KEY", "").strip()
 INDEX_NAME = "apex-sports-index"
 
@@ -31,13 +49,10 @@ pinecone_index = None
 if PINECONE_API_KEY:
     try:
         pc = Pinecone(api_key=PINECONE_API_KEY)
-        
-        # Fetch list of active indexes
         existing_indexes = [idx.name for idx in pc.list_indexes()]
         
-        # Auto-create index if missing to prevent 404 errors
         if INDEX_NAME not in existing_indexes:
-            print(f"Index '{INDEX_NAME}' not found. Auto-creating serverless index...")
+            print(f"Creating Pinecone Index '{INDEX_NAME}'...")
             pc.create_index(
                 name=INDEX_NAME,
                 dimension=8,
@@ -46,16 +61,21 @@ if PINECONE_API_KEY:
             )
             
         pinecone_index = pc.Index(INDEX_NAME)
-        print("Successfully authenticated and connected to Pinecone!")
+        
+        # Automatic Seeding Check
+        stats = pinecone_index.describe_index_stats()
+        if stats.get("total_vector_count", 0) == 0:
+            print("Database empty. Auto-seeding initial historical game vectors...")
+            pinecone_index.upsert(vectors=SAMPLE_HISTORICAL_GAMES)
+            print("Auto-seeding completed!")
+            
     except Exception as e:
         print(f"Error initializing Pinecone: {e}")
-else:
-    print("Warning: PINECONE_API_KEY environment variable is not set on Render.")
 
-# 3. Domain Schemas & Models
+# 4. Domain Schemas
 class RawTeamStats(BaseModel):
     team_name: str
-    sport: str  # e.g., 'NBA', 'NFL'
+    sport: str
     offensive_rating: float
     defensive_rating: float
     pace: float
@@ -70,7 +90,6 @@ class SimilarityRequest(BaseModel):
     top_k: int = 5
     sport_filter: Optional[str] = None
 
-# 4. Vector Normalization & Math Engine
 class VectorEngine:
     @staticmethod
     def normalize_stats(stats: RawTeamStats) -> np.ndarray:
@@ -102,14 +121,23 @@ class VectorEngine:
     def euclidean_distance(v1: np.ndarray, v2: np.ndarray) -> float:
         return float(np.linalg.norm(v1 - v2))
 
-# 5. API Endpoints
+# 5. Endpoints
 @app.get("/")
 def read_root():
+    vector_count = 0
+    if pinecone_index:
+        try:
+            stats = pinecone_index.describe_index_stats()
+            vector_count = stats.get("total_vector_count", 0)
+        except Exception:
+            pass
+            
     return {
         "status": "Online",
-        "engine": "APEX Vector Ingestion & Pinecone Match Engine",
+        "engine": "APEX Vector Engine (Auto-Seeded)",
         "phase": 2,
-        "pinecone_connected": pinecone_index is not None
+        "pinecone_connected": pinecone_index is not None,
+        "indexed_vectors": vector_count
     }
 
 @app.post("/api/v1/vectorize")
@@ -130,7 +158,7 @@ def find_twin_games(request: SimilarityRequest):
     if not pinecone_index:
         raise HTTPException(
             status_code=500, 
-            detail="Pinecone is not initialized. Please verify PINECONE_API_KEY in Render environment settings."
+            detail="Pinecone is not initialized. Check PINECONE_API_KEY in Render settings."
         )
 
     try:
@@ -138,7 +166,6 @@ def find_twin_games(request: SimilarityRequest):
         if request.sport_filter:
             metadata_filter = {"sport": {"$eq": request.sport_filter.upper()}}
 
-        # Query vector database
         query_response = pinecone_index.query(
             vector=request.target_vector,
             top_k=request.top_k,
@@ -174,30 +201,3 @@ def find_twin_games(request: SimilarityRequest):
 
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
-
-@app.post("/api/v1/seed-database")
-def seed_pinecone_data():
-    """Quick seeding route to populate the Pinecone index with sample games."""
-    if not pinecone_index:
-        raise HTTPException(status_code=500, detail="Pinecone index not initialized.")
-
-    sample_games = [
-        {
-            "id": "HIST_NBA_001",
-            "values": [0.85, 0.32, 0.65, 0.42, 0.78, 0.28, 0.10, 0.05],
-            "metadata": {"sport": "NBA", "date": "2024-03-12", "matchup": "GSW @ BOS", "final_score": "112 - 118"}
-        },
-        {
-            "id": "HIST_NBA_002",
-            "values": [0.78, 0.45, 0.52, 0.38, 0.71, 0.42, 0.25, 0.12],
-            "metadata": {"sport": "NBA", "date": "2023-11-20", "matchup": "LAL @ DEN", "final_score": "104 - 108"}
-        },
-        {
-            "id": "HIST_NFL_001",
-            "values": [0.72, 0.28, 0.81, 0.20, 0.65, 0.85, 0.40, 0.10],
-            "metadata": {"sport": "NFL", "date": "2024-01-14", "matchup": "BUF @ KC", "final_score": "24 - 27"}
-        }
-    ]
-
-    pinecone_index.upsert(vectors=sample_games)
-    return {"status": "Success", "message": f"Successfully seeded {len(sample_games)} games into Pinecone!"}
