@@ -1,5 +1,38 @@
 import os
+import time
 import requests
+
+# Memory cache layer to prevent spamming The Odds API and hitting rate limits
+_ODDS_CACHE = {
+    "data": None,
+    "timestamp": 0
+}
+CACHE_TTL = 300  # Cache live odds for 5 minutes (300 seconds)
+
+def fetch_cached_odds(odds_api_key):
+    global _ODDS_CACHE
+    current_time = time.time()
+    
+    # Return cached odds if still fresh
+    if _ODDS_CACHE["data"] and (current_time - _ODDS_CACHE["timestamp"] < CACHE_TTL):
+        return _ODDS_CACHE["data"]
+    
+    url = "https://api.the-odds-api.com/v4/sports/americanfootball_nfl/odds"
+    params = {
+        "apiKey": odds_api_key,
+        "regions": "us",
+        "markets": "spreads,totals,h2h",
+        "oddsFormat": "american"
+    }
+
+    response = requests.get(url, params=params)
+    response.raise_for_status()
+    data = response.json()
+
+    # Update cache
+    _ODDS_CACHE["data"] = data
+    _ODDS_CACHE["timestamp"] = current_time
+    return data
 
 def process_current_nfl_game(home_team, away_team):
     try:
@@ -8,17 +41,7 @@ def process_current_nfl_game(home_team, away_team):
         if not odds_api_key:
             raise ValueError("API_KEYS environment variable is missing on Render.")
 
-        url = "https://api.the-odds-api.com/v4/sports/americanfootball_nfl/odds"
-        params = {
-            "apiKey": odds_api_key,
-            "regions": "us",
-            "markets": "spreads,totals,h2h",
-            "oddsFormat": "american"
-        }
-
-        response = requests.get(url, params=params)
-        response.raise_for_status()
-        data = response.json()
+        data = fetch_cached_odds(odds_api_key)
 
         live_game = None
         for game in data:
