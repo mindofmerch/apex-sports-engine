@@ -21,7 +21,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Expanded Authentic Historical Match Archive for Vector Comparisons (Game DNA v2)
 MASTER_HISTORICAL_GAMES = [
     {
         "id": "DNA_NFL_2024_AFC_BUF_KC",
