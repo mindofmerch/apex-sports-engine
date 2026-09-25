@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Y.E.S. Sports Anomaly Lab | Command Center v5.5</title>
+    <title>Y.E.S. Sports Anomaly Lab | Institutional Command Center</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -26,16 +26,18 @@
 
             <!-- Navigation Tabs -->
             <div class="flex items-center space-x-1 bg-slate-950 p-1 rounded-xl border border-slate-800">
-                <button onclick="switchTab('dashboard')" id="tab-dashboard" class="px-4 py-1.5 rounded-lg text-xs font-bold transition bg-cyan-500 text-slate-950 shadow-md">Command Deck</button>
-                <button onclick="switchTab('matchups')" id="tab-matchups" class="px-4 py-1.5 rounded-lg text-xs font-bold transition text-slate-400 hover:text-slate-200">Matchup Stream</button>
-                <button onclick="switchTab('dna')" id="tab-dna" class="px-4 py-1.5 rounded-lg text-xs font-bold transition text-slate-400 hover:text-slate-200">DNA Matrix</button>
+                <button onclick="switchTab('dashboard')" id="tab-dashboard" class="px-3.5 py-1.5 rounded-lg text-xs font-bold transition bg-cyan-500 text-slate-950 shadow-md">Command Deck</button>
+                <button onclick="switchTab('matchups')" id="tab-matchups" class="px-3.5 py-1.5 rounded-lg text-xs font-bold transition text-slate-400 hover:text-slate-200">Matchup Stream</button>
+                <button onclick="switchTab('slates')" id="tab-slates" class="px-3.5 py-1.5 rounded-lg text-xs font-bold transition text-slate-400 hover:text-slate-200">Active Slates</button>
+                <button onclick="switchTab('parlay')" id="tab-parlay" class="px-3.5 py-1.5 rounded-lg text-xs font-bold transition text-slate-400 hover:text-slate-200">Parlay Builder</button>
+                <button onclick="switchTab('dna')" id="tab-dna" class="px-3.5 py-1.5 rounded-lg text-xs font-bold transition text-slate-400 hover:text-slate-200">DNA Matrix</button>
             </div>
 
             <!-- System Telemetry Badges -->
             <div class="flex items-center space-x-3 text-xs font-semibold text-slate-400">
                 <div class="hidden lg:flex items-center gap-2 bg-slate-900 px-3 py-1.5 rounded-lg border border-slate-800 text-[11px]">
                     <i class="fa-solid fa-bridge text-cyan-400"></i>
-                    <span>Decay Bridge: <strong class="text-emerald-400">Active (Bayesian)</strong></span>
+                    <span>Decay Bridge: <strong class="text-emerald-400">Active</strong></span>
                 </div>
             </div>
         </div>
@@ -43,17 +45,15 @@
 
     <main class="max-w-7xl mx-auto px-6 py-8">
         
-        <!-- VIEW 1: COMMAND DECK & TENSOR ENGINE -->
+        <!-- VIEW 1: COMMAND DECK -->
         <div id="view-dashboard" class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            
-            <!-- Left Command Parameters Controls -->
             <div class="lg:col-span-5 bg-[#0f121d] border border-slate-800/80 rounded-2xl p-6 shadow-2xl flex flex-col justify-between">
                 <div>
                     <div class="flex justify-between items-center mb-5 pb-3 border-b border-slate-800">
                         <h2 class="text-xs font-extrabold uppercase tracking-widest text-slate-200 flex items-center gap-2">
                             <i class="fa-solid fa-sliders text-cyan-400"></i> Vector Configuration
                         </h2>
-                        <span class="text-[10px] text-slate-400 font-mono">8-Digit / 16-D Core</span>
+                        <span class="text-[10px] text-slate-400 font-mono">16-D Core</span>
                     </div>
 
                     <form id="matchup-form" class="space-y-4">
@@ -78,12 +78,10 @@
                             </div>
                         </div>
 
-                        <!-- Advanced Metrics Box (Alt-Route & Bayesian Inputs) -->
                         <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800/60 space-y-3 mt-4">
                             <div class="text-[10px] font-bold tracking-widest uppercase text-cyan-400 mb-1 flex items-center gap-1.5">
                                 <i class="fa-solid fa-shield-halved"></i> Anomaly Lab Parameters
                             </div>
-                            
                             <div class="grid grid-cols-2 gap-3">
                                 <div>
                                     <label class="block text-[10px] text-slate-400 mb-1">Alt-Route Index</label>
@@ -94,7 +92,6 @@
                                     <input type="number" step="0.05" id="sharp_money_indicator" value="0.85" class="w-full bg-slate-900 border border-slate-800 rounded-lg p-2 text-xs text-slate-200" required>
                                 </div>
                             </div>
-
                             <div class="grid grid-cols-2 gap-3">
                                 <div>
                                     <label class="block text-[10px] text-slate-400 mb-1">Weather Severity</label>
@@ -107,7 +104,7 @@
                             </div>
                         </div>
 
-                        <!-- Hidden variables for backend compatibility -->
+                        <!-- Hidden operational inputs -->
                         <input type="hidden" id="offensive_rating" value="28.5">
                         <input type="hidden" id="defensive_rating" value="18.0">
                         <input type="hidden" id="turnover_margin" value="1.5">
@@ -129,69 +126,125 @@
                 </div>
             </div>
 
-            <!-- Right Panel: Results & Scrollable Horizontal Game DNA Stream -->
             <div class="lg:col-span-7 space-y-6">
-                
-                <!-- Projected Score & Game DNA Box -->
                 <div class="bg-[#0f121d] border border-slate-800/80 rounded-2xl p-6 shadow-2xl relative overflow-hidden">
                     <div class="absolute top-0 right-0 bg-cyan-500/10 text-cyan-400 px-4 py-1 text-[10px] font-extrabold rounded-bl-xl border-l border-b border-cyan-500/20 uppercase tracking-widest">
                         Immutable Pregame Logged
                     </div>
-                    
                     <h3 class="text-[10px] uppercase tracking-widest text-slate-400 font-bold mb-4">Structural Game Trajectory</h3>
-                    
                     <div id="score-output" class="text-slate-400 text-xs py-8 text-center font-medium">
                         Select a matchup profile and execute the shadow validation pipeline.
                     </div>
                 </div>
 
-                <!-- Scrollable Horizontal Game DNA Stream -->
                 <div class="bg-[#0f121d] border border-slate-800/80 rounded-2xl p-6 shadow-2xl">
                     <div class="flex justify-between items-center mb-4">
                         <h3 class="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-2">
-                            <i class="fa-solid fa-dna text-cyan-400"></i> Game DNA v2 Historical Lookalikes (Scrollable Stream)
+                            <i class="fa-solid fa-dna text-cyan-400"></i> Game DNA v2 Historical Lookalikes (Stream)
                         </h3>
                         <span class="text-[10px] text-cyan-400 bg-cyan-950/80 px-2.5 py-1 rounded-md border border-cyan-800/60 font-mono">Vector Stream</span>
                     </div>
-                    
-                    <!-- Horizontal Scrollable Container -->
                     <div id="twins-slider" class="flex gap-4 overflow-x-auto pb-4 pt-1 custom-scrollbar">
                         <div class="min-w-full bg-slate-950/60 border border-slate-800/80 p-5 rounded-xl text-center text-slate-500 text-xs italic">
                             Awaiting tensor execution...
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
 
-        <!-- VIEW 2: SCROLLABLE MATCHUP STREAM -->
+        <!-- VIEW 2: MATCHUP STREAM -->
         <div id="view-matchups" class="hidden space-y-6">
             <div class="bg-[#0f121d] border border-slate-800/80 rounded-2xl p-6 shadow-2xl">
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="text-sm font-extrabold uppercase tracking-widest text-slate-200 flex items-center gap-2">
-                        <i class="fa-solid fa-stream text-cyan-400"></i> Anomaly Lab Active Matchup Stream
+                        <i class="fa-solid fa-stream text-cyan-400"></i> Active Matchup Stream
                     </h2>
                     <span class="text-xs text-slate-400">Out-of-Sample Audited Data</span>
                 </div>
-                <div class="space-y-4 max-h-[600px] overflow-y-auto custom-scrollbar pr-2" id="vertical-matchups-list">
-                    <!-- Populated dynamically -->
+                <div class="space-y-4 max-h-[600px] overflow-y-auto custom-scrollbar pr-2" id="vertical-matchups-list"></div>
+            </div>
+        </div>
+
+        <!-- VIEW 3: ACTIVE SLATES -->
+        <div id="view-slates" class="hidden space-y-6">
+            <div class="bg-[#0f121d] border border-slate-800/80 rounded-2xl p-6 shadow-2xl">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-sm font-extrabold uppercase tracking-widest text-slate-200 flex items-center gap-2">
+                        <i class="fa-solid fa-calendar-days text-cyan-400"></i> Weekly Slate Manager
+                    </h2>
+                    <span class="text-xs text-cyan-400 font-mono">Full Board Overview</span>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="slates-grid">
+                    <div class="bg-slate-950 border border-slate-800 p-4 rounded-xl">
+                        <div class="text-xs font-bold text-white">Buffalo Bills @ Kansas City Chiefs</div>
+                        <div class="text-[11px] text-slate-400 mt-1">Projected Total: 51.5 pts | Edge: High Confidence</div>
+                        <button onclick="loadPresetMatchup('BUF_KC')" class="mt-3 px-3 py-1.5 bg-cyan-500 text-slate-950 text-[10px] font-bold rounded-lg uppercase">Inspect in Command Deck</button>
+                    </div>
+                    <div class="bg-slate-950 border border-slate-800 p-4 rounded-xl">
+                        <div class="text-xs font-bold text-white">Green Bay Packers @ San Francisco 49ers</div>
+                        <div class="text-[11px] text-slate-400 mt-1">Projected Total: 45.0 pts | Edge: Weather Impact</div>
+                        <button onclick="loadPresetMatchup('GB_SF')" class="mt-3 px-3 py-1.5 bg-cyan-500 text-slate-950 text-[10px] font-bold rounded-lg uppercase">Inspect in Command Deck</button>
+                    </div>
+                    <div class="bg-slate-950 border border-slate-800 p-4 rounded-xl">
+                        <div class="text-xs font-bold text-white">Baltimore Ravens @ Cincinnati Bengals</div>
+                        <div class="text-[11px] text-slate-400 mt-1">Projected Total: 55.5 pts | Edge: Pace Shootout</div>
+                        <button onclick="loadPresetMatchup('BAL_CIN')" class="mt-3 px-3 py-1.5 bg-cyan-500 text-slate-950 text-[10px] font-bold rounded-lg uppercase">Inspect in Command Deck</button>
+                    </div>
+                    <div class="bg-slate-950 border border-slate-800 p-4 rounded-xl">
+                        <div class="text-xs font-bold text-white">Detroit Lions @ Philadelphia Eagles</div>
+                        <div class="text-[11px] text-slate-400 mt-1">Projected Total: 53.0 pts | Edge: Alt-Route A+</div>
+                        <button onclick="loadPresetMatchup('DET_PHI')" class="mt-3 px-3 py-1.5 bg-cyan-500 text-slate-950 text-[10px] font-bold rounded-lg uppercase">Inspect in Command Deck</button>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- VIEW 3: DNA MATRIX -->
+        <!-- VIEW 4: PARLAY BUILDER -->
+        <div id="view-parlay" class="hidden space-y-6">
+            <div class="bg-[#0f121d] border border-slate-800/80 rounded-2xl p-6 shadow-2xl">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-sm font-extrabold uppercase tracking-widest text-slate-200 flex items-center gap-2">
+                        <i class="fa-solid fa-layer-group text-cyan-400"></i> Anomaly Lab Parlay Correlation Engine
+                    </h2>
+                    <span class="text-xs text-emerald-400 font-mono">Multi-Leg Vector Link</span>
+                </div>
+                <div class="space-y-4">
+                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex justify-between items-center">
+                        <div>
+                            <div class="text-xs font-bold text-white">Leg 1: Buffalo Bills ATS / Total Over Correlation</div>
+                            <div class="text-[11px] text-slate-400">Vector match confidence: 82%</div>
+                        </div>
+                        <span class="text-xs text-emerald-400 font-bold">+145 Odds Correlated</span>
+                    </div>
+                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex justify-between items-center">
+                        <div>
+                            <div class="text-xs font-bold text-white">Leg 2: Detroit Lions Alt-Route Over</div>
+                            <div class="text-[11px] text-slate-400">Vector match confidence: 91%</div>
+                        </div>
+                        <span class="text-xs text-emerald-400 font-bold">+130 Odds Correlated</span>
+                    </div>
+                    <div class="p-4 bg-cyan-950/40 border border-cyan-800/60 rounded-xl flex justify-between items-center">
+                        <div>
+                            <div class="text-xs font-extrabold text-cyan-300 uppercase">Combined Parlay Correlation Value</div>
+                            <div class="text-[11px] text-slate-300">Simulated correlation dampener applied based on historical twins.</div>
+                        </div>
+                        <div class="text-lg font-black text-emerald-400">+485 Total</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW 5: DNA MATRIX -->
         <div id="view-dna" class="hidden space-y-6">
             <div class="bg-[#0f121d] border border-slate-800/80 rounded-2xl p-6 shadow-2xl">
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="text-sm font-extrabold uppercase tracking-widest text-slate-200 flex items-center gap-2">
                         <i class="fa-solid fa-chart-pie text-cyan-400"></i> Alt-Route Completeness & Decay Index
                     </h2>
-                    <span class="text-xs text-emerald-400 font-mono">Institutional Defensibility Mode</span>
+                    <span class="text-xs text-emerald-400 font-mono">Institutional Defensibility</span>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="dna-matrix-grid">
-                    <!-- Populated dynamically -->
-                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="dna-matrix-grid"></div>
             </div>
         </div>
 
@@ -199,12 +252,12 @@
 
     <script>
         function switchTab(tabName) {
-            ['dashboard', 'matchups', 'dna'].forEach(t => {
+            ['dashboard', 'matchups', 'slates', 'parlay', 'dna'].forEach(t => {
                 document.getElementById(`view-${t}`).classList.add('hidden');
-                document.getElementById(`tab-${t}`).className = "px-4 py-1.5 rounded-lg text-xs font-bold transition text-slate-400 hover:text-slate-200";
+                document.getElementById(`tab-${t}`).className = "px-3.5 py-1.5 rounded-lg text-xs font-bold transition text-slate-400 hover:text-slate-200";
             });
             document.getElementById(`view-${tabName}`).classList.remove('hidden');
-            document.getElementById(`tab-${tabName}`).className = "px-4 py-1.5 rounded-lg text-xs font-bold transition bg-cyan-500 text-slate-950 shadow-md";
+            document.getElementById(`tab-${tabName}`).className = "px-3.5 py-1.5 rounded-lg text-xs font-bold transition bg-cyan-500 text-slate-950 shadow-md";
 
             if(tabName === 'matchups' || tabName === 'dna') {
                 loadStreams();
@@ -218,9 +271,10 @@
             "DET_PHI": { team: "Detroit Lions", opp: "Philadelphia Eagles", alt: 0.91, sharp: 0.70, weather: 0.30, pace: 74.5 }
         };
 
-        document.getElementById('preset-selector').addEventListener('change', (e) => {
-            const p = presets[e.target.value];
+        function loadPresetMatchup(presetKey) {
+            const p = presets[presetKey];
             if(p) {
+                document.getElementById('preset-selector').value = presetKey;
                 document.getElementById('team_name').value = p.team;
                 document.getElementById('opponent_name').value = p.opp;
                 document.getElementById('alt_route_completeness').value = p.alt;
@@ -228,6 +282,12 @@
                 document.getElementById('weather_severity').value = p.weather;
                 document.getElementById('snap_pace').value = p.pace;
             }
+            switchTab('dashboard');
+            executeTensorQuery();
+        }
+
+        document.getElementById('preset-selector').addEventListener('change', (e) => {
+            loadPresetMatchup(e.target.value);
         });
 
         document.getElementById('matchup-form').addEventListener('submit', async (e) => {
@@ -255,7 +315,7 @@
                 injury_impact_weight: parseFloat(document.getElementById('injury_impact_weight').value),
                 weather_severity: parseFloat(document.getElementById('weather_severity').value),
                 coaching_scheme_index: parseFloat(document.getElementById('coaching_scheme_index').value),
-                public_money_pct: parseFloat(document.getElementById('public_money_pct').value),
+                alt_route_completeness: parseFloat(document.getElementById('alt_route_completeness').value),
                 sharp_money_indicator: parseFloat(document.getElementById('sharp_money_indicator').value),
                 line_movement_volatility: parseFloat(document.getElementById('line_movement_volatility').value),
                 divisional_rivalry: parseFloat(document.getElementById('divisional_rivalry').value),
@@ -342,7 +402,7 @@
                     offensive_rating: 28.5, defensive_rating: 18.0, snap_pace: 68.0,
                     turnover_margin: 1.5, success_rate: 48.5, rest_advantage_days: 1.0,
                     travel_miles: 1200, injury_impact_weight: 0.15, weather_severity: 0.20,
-                    coaching_scheme_index: 0.80, public_money_pct: 38.0, sharp_money_indicator: 0.85,
+                    coaching_scheme_index: 0.80, alt_route_completeness: 0.82, sharp_money_indicator: 0.85,
                     line_movement_volatility: 0.60, divisional_rivalry: 1.0, red_zone_efficiency: 65.0, pass_rush_win_rate: 42.0
                 };
                 const res = await fetch('/api/v1/analyze-matchup', {
