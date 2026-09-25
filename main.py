@@ -8,9 +8,9 @@ from pinecone import Pinecone, ServerlessSpec
 
 # 1. Initialize FastAPI Application
 app = FastAPI(
-    title="APEX Sports Vector Matching Engine",
-    description="Phase 2/3 Engine: Auto-Provisioned & Auto-Seeded Vector Engine",
-    version="2.2.0"
+    title="APEX NFL Vector Intelligence Engine",
+    description="Production-Grade NFL Match Twin & Edge Engine",
+    version="3.0.0"
 )
 
 app.add_middleware(
@@ -21,26 +21,26 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# 2. Sample Data for Automatic Seeding
-SAMPLE_HISTORICAL_GAMES = [
+# 2. NFL Historical Baseline Seeding Data
+NFL_HISTORICAL_GAMES = [
     {
-        "id": "HIST_NBA_001",
-        "values": [0.85, 0.32, 0.65, 0.42, 0.78, 0.28, 0.10, 0.05],
-        "metadata": {"sport": "NBA", "date": "2024-03-12", "matchup": "GSW @ BOS", "final_score": "112 - 118"}
-    },
-    {
-        "id": "HIST_NBA_002",
-        "values": [0.78, 0.45, 0.52, 0.38, 0.71, 0.42, 0.25, 0.12],
-        "metadata": {"sport": "NBA", "date": "2023-11-20", "matchup": "LAL @ DEN", "final_score": "104 - 108"}
-    },
-    {
-        "id": "HIST_NFL_001",
-        "values": [0.72, 0.28, 0.81, 0.20, 0.65, 0.85, 0.40, 0.10],
+        "id": "HIST_NFL_2024_KC_BUF",
+        "values": [0.78, 0.25, 0.82, 0.18, 0.68, 0.85, 0.40, 0.05],
         "metadata": {"sport": "NFL", "date": "2024-01-14", "matchup": "BUF @ KC", "final_score": "24 - 27"}
+    },
+    {
+        "id": "HIST_NFL_2023_SF_DAL",
+        "values": [0.90, 0.15, 0.75, 0.10, 0.82, 0.60, 0.10, 0.00],
+        "metadata": {"sport": "NFL", "date": "2023-10-08", "matchup": "DAL @ SF", "final_score": "10 - 31"}
+    },
+    {
+        "id": "HIST_NFL_2024_BAL_DET",
+        "values": [0.82, 0.30, 0.70, 0.22, 0.72, 0.75, 0.50, 0.10],
+        "metadata": {"sport": "NFL", "date": "2024-11-10", "matchup": "DET @ BAL", "final_score": "28 - 35"}
     }
 ]
 
-# 3. Initialize Pinecone Client & Auto-Seed
+# 3. Initialize Pinecone & Auto-Seed NFL Index
 PINECONE_API_KEY = os.getenv("PINECONE_API_KEY", "").strip()
 INDEX_NAME = "apex-sports-index"
 
@@ -62,49 +62,41 @@ if PINECONE_API_KEY:
             
         pinecone_index = pc.Index(INDEX_NAME)
         
-        # Automatic Seeding Check
+        # Auto-seed if empty
         stats = pinecone_index.describe_index_stats()
         if stats.get("total_vector_count", 0) == 0:
-            print("Database empty. Auto-seeding initial historical game vectors...")
-            pinecone_index.upsert(vectors=SAMPLE_HISTORICAL_GAMES)
-            print("Auto-seeding completed!")
+            print("Seeding initial NFL historical database vectors...")
+            pinecone_index.upsert(vectors=NFL_HISTORICAL_GAMES)
+            print("NFL Seeding complete!")
             
     except Exception as e:
-        print(f"Error initializing Pinecone: {e}")
+        print(f"Pinecone initialization error: {e}")
 
-# 4. Domain Schemas
-class RawTeamStats(BaseModel):
+# 4. NFL Schemas
+class RawNFLStats(BaseModel):
     team_name: str
-    sport: str
-    offensive_rating: float
-    defensive_rating: float
-    pace: float
-    turnover_pct: float
-    effective_fg_pct: float
-    rest_days: float
-    travel_miles: float
-    injury_impact: float
+    offensive_rating: float   # Points / Yards per game scale (e.g. 10.0 to 40.0)
+    defensive_rating: float   # Points allowed scale (e.g. 10.0 to 40.0)
+    pace: float               # Snaps per game (e.g. 50.0 to 80.0)
+    turnover_pct: float       # Turnover rate (0 to 30)
+    effective_fg_pct: float   # Success rate / 3rd-down conversion efficiency (0 to 100)
+    rest_days: float          # Days since last game (0 to 10)
+    travel_miles: float       # Travel distance (0 to 3000)
+    injury_impact: float      # Key starter absence weight (0.0 to 1.0)
 
 class SimilarityRequest(BaseModel):
     target_vector: List[float]
     top_k: int = 5
-    sport_filter: Optional[str] = None
 
-class VectorEngine:
+# 5. NFL Normalization Engine
+class NFLEngine:
     @staticmethod
-    def normalize_stats(stats: RawTeamStats) -> np.ndarray:
-        if stats.sport.upper() == "NBA":
-            off_norm = (stats.offensive_rating - 90.0) / (130.0 - 90.0)
-            def_norm = (stats.defensive_rating - 90.0) / (130.0 - 90.0)
-            pace_norm = (stats.pace - 90.0) / (110.0 - 90.0)
-            to_norm = stats.turnover_pct / 25.0
-            efg_norm = (stats.effective_fg_pct - 40.0) / (65.0 - 40.0)
-        else:
-            off_norm = stats.offensive_rating / 150.0
-            def_norm = stats.defensive_rating / 150.0
-            pace_norm = stats.pace / 120.0
-            to_norm = stats.turnover_pct / 100.0
-            efg_norm = stats.effective_fg_pct / 100.0
+    def normalize_stats(stats: RawNFLStats) -> np.ndarray:
+        off_norm = (stats.offensive_rating - 10.0) / (40.0 - 10.0)
+        def_norm = (stats.defensive_rating - 10.0) / (40.0 - 10.0)
+        pace_norm = (stats.pace - 50.0) / (80.0 - 50.0)
+        to_norm = stats.turnover_pct / 30.0
+        efg_norm = stats.effective_fg_pct / 100.0
 
         rest_norm = min(stats.rest_days / 7.0, 1.0)
         travel_norm = min(stats.travel_miles / 3000.0, 1.0)
@@ -121,7 +113,7 @@ class VectorEngine:
     def euclidean_distance(v1: np.ndarray, v2: np.ndarray) -> float:
         return float(np.linalg.norm(v1 - v2))
 
-# 5. Endpoints
+# 6. Endpoints
 @app.get("/")
 def read_root():
     vector_count = 0
@@ -131,22 +123,22 @@ def read_root():
             vector_count = stats.get("total_vector_count", 0)
         except Exception:
             pass
-            
+
     return {
         "status": "Online",
-        "engine": "APEX Vector Engine (Auto-Seeded)",
-        "phase": 2,
+        "sport": "NFL",
+        "engine": "APEX NFL Vector Intelligence Engine",
         "pinecone_connected": pinecone_index is not None,
         "indexed_vectors": vector_count
     }
 
 @app.post("/api/v1/vectorize")
-def vectorize_team_stats(stats: RawTeamStats):
+def vectorize_nfl_stats(stats: RawNFLStats):
     try:
-        vector = VectorEngine.normalize_stats(stats)
+        vector = NFLEngine.normalize_stats(stats)
         return {
             "team_name": stats.team_name,
-            "sport": stats.sport,
+            "sport": "NFL",
             "vector": vector.tolist(),
             "vector_dimensions": len(vector)
         }
@@ -154,23 +146,17 @@ def vectorize_team_stats(stats: RawTeamStats):
         raise HTTPException(status_code=400, detail=str(e))
 
 @app.post("/api/v1/match-twins")
-def find_twin_games(request: SimilarityRequest):
+def find_nfl_twin_games(request: SimilarityRequest):
     if not pinecone_index:
-        raise HTTPException(
-            status_code=500, 
-            detail="Pinecone is not initialized. Check PINECONE_API_KEY in Render settings."
-        )
+        raise HTTPException(status_code=500, detail="Pinecone not initialized.")
 
     try:
-        metadata_filter = {}
-        if request.sport_filter:
-            metadata_filter = {"sport": {"$eq": request.sport_filter.upper()}}
-
+        # Query Pinecone with strict NFL filter
         query_response = pinecone_index.query(
             vector=request.target_vector,
             top_k=request.top_k,
             include_metadata=True,
-            filter=metadata_filter if metadata_filter else None
+            filter={"sport": {"$eq": "NFL"}}
         )
 
         results = []
@@ -182,11 +168,10 @@ def find_twin_games(request: SimilarityRequest):
             if match.values:
                 db_vec = np.array(match.values, dtype=float)
                 target_vec = np.array(request.target_vector, dtype=float)
-                euc_dist = VectorEngine.euclidean_distance(target_vec, db_vec)
+                euc_dist = NFLEngine.euclidean_distance(target_vec, db_vg if 'db_vg' in locals() else db_vec)
 
             results.append({
                 "game_id": match.id,
-                "sport": meta.get("sport", "N/A"),
                 "date": meta.get("date", "N/A"),
                 "matchup": meta.get("matchup", "N/A"),
                 "final_score": meta.get("final_score", "N/A"),
@@ -195,6 +180,7 @@ def find_twin_games(request: SimilarityRequest):
             })
 
         return {
+            "sport": "NFL",
             "total_matches_returned": len(results),
             "top_k_twins": results
         }
