@@ -2,18 +2,16 @@ import os
 import time
 import requests
 
-# Memory cache layer to prevent spamming The Odds API and hitting rate limits
 _ODDS_CACHE = {
     "data": None,
     "timestamp": 0
 }
-CACHE_TTL = 300  # Cache live odds for 5 minutes (300 seconds)
+CACHE_TTL = 300  # 5 minutes cache
 
 def fetch_cached_odds(odds_api_key):
     global _ODDS_CACHE
     current_time = time.time()
     
-    # Return cached odds if still fresh
     if _ODDS_CACHE["data"] and (current_time - _ODDS_CACHE["timestamp"] < CACHE_TTL):
         return _ODDS_CACHE["data"]
     
@@ -29,7 +27,6 @@ def fetch_cached_odds(odds_api_key):
     response.raise_for_status()
     data = response.json()
 
-    # Update cache
     _ODDS_CACHE["data"] = data
     _ODDS_CACHE["timestamp"] = current_time
     return data
@@ -37,7 +34,6 @@ def fetch_cached_odds(odds_api_key):
 def process_current_nfl_game(home_team, away_team):
     try:
         odds_api_key = os.getenv("API_KEYS")
-        
         if not odds_api_key:
             raise ValueError("API_KEYS environment variable is missing on Render.")
 
