@@ -61,6 +61,7 @@ def process_current_nfl_game(home_team, away_team):
 
         return {
             "success": True,
+            "brand": "Y.E.S. Sports: Your Edge Sports",
             "matchup": f"{away_team} @ {home_team}",
             "marketData": live_game.get("bookmakers", [{}])[0] if live_game and live_game.get("bookmakers") else "No active market odds found",
             "historicalContext": historical_data,
@@ -68,7 +69,7 @@ def process_current_nfl_game(home_team, away_team):
         }
 
     except Exception as error:
-        print(f"Error running NFL Gold Script prediction pipeline: {error}")
+        print(f"Y.E.S. Sports Pipeline Error: {error}")
         raise error
 
 def synthesize_game_script_and_scores(live_odds, history, home_team, away_team):
