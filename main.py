@@ -1,3 +1,4 @@
+from nfl_engine import process_current_nfl_game
 import os
 import numpy as np
 from fastapi import FastAPI, HTTPException
@@ -103,7 +104,6 @@ class MatchupRequest(BaseModel):
 class GameDNABridgeEngine:
     @staticmethod
     def vectorize(req: MatchupRequest) -> list:
-        # Incorporates Game DNA v2 features & Alt-Route index into vector space
         vec = np.array([
             (req.offensive_rating - 10.0) / 30.0,
             (req.defensive_rating - 10.0) / 30.0,
@@ -133,7 +133,6 @@ class GameDNABridgeEngine:
         except Exception:
             base_team_score, base_opp_score = 24.0, 21.0
 
-        # Bayesian Season Decay & Alt-Route Adjustments
         pace_modifier = (req.snap_pace - 65.0) * 0.10
         weather_drag = req.weather_severity * -3.5
         alt_route_boost = (req.alt_route_completeness - 0.5) * 4.0
@@ -153,6 +152,13 @@ class GameDNABridgeEngine:
             "projected_total": round(projected_team + projected_opp, 1),
             "market_edge_rating": edge
         }
+
+@app.get("/")
+def serve_dashboard():
+    if os.path.exists("index.html"):
+        return FileResponse("index.html")
+    return {"status": "Online", "message": "Backend running, index.html missing."}
+
 @app.get("/api/nfl/predict")
 def predict_nfl_game(home: str, away: str):
     if not home or not away:
@@ -165,11 +171,6 @@ def predict_nfl_game(home: str, away: str):
         return result
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-@app.get("/")
-def serve_dashboard():
-    if os.path.exists("index.html"):
-        return FileResponse("index.html")
-    return {"status": "Online", "message": "Backend running, index.html missing."}
 
 @app.post("/api/v1/analyze-matchup")
 def analyze_matchup(req: MatchupRequest):
@@ -227,24 +228,3 @@ def analyze_matchup(req: MatchupRequest):
 
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
-
-
-
-except Exception as e:
-            raise HTTPException(status_code=400, detail=str(e))
-
-# ==========================================
-# PASTE YOUR NEW NFL PREDICT ROUTE HERE:
-# ==========================================
-@app.get("/api/nfl/predict")
-def predict_nfl_game(home: str, away: str):
-    if not home or not away:
-        raise HTTPException(
-            status_code=400, 
-            detail="Please provide home and away query parameters (e.g., ?home=Chiefs&away=Bills)."
-        )
-    try:
-        result = process_current_nfl_game(home, away)
-        return result
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
