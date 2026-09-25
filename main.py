@@ -153,7 +153,18 @@ class GameDNABridgeEngine:
             "projected_total": round(projected_team + projected_opp, 1),
             "market_edge_rating": edge
         }
-
+@app.get("/api/nfl/predict")
+def predict_nfl_game(home: str, away: str):
+    if not home or not away:
+        raise HTTPException(
+            status_code=400, 
+            detail="Please provide home and away query parameters (e.g., ?home=Chiefs&away=Bills)."
+        )
+    try:
+        result = process_current_nfl_game(home, away)
+        return result
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 @app.get("/")
 def serve_dashboard():
     if os.path.exists("index.html"):
