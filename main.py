@@ -15,186 +15,240 @@ app.add_middleware(
 )
 
 # ==============================================================================
-# SUNDAY, SEPTEMBER 27, 2026 (NFL WEEK 3) REAL SLATE & HISTORICAL VECTOR DB
+# 2026 NFL WEEK 3 SLATE (SUNDAY, SEPT 27, 2026) & 16D VECTOR RESEARCH DB
 # ==============================================================================
 WEEK3_SLATE_2026 = [
     {
         "id": "cin_pit",
         "signal": 15,
-        "matchup": "CIN vs PIT",
+        "matchup": "CIN @ PIT",
         "spread": "CIN -2.5",
         "total": "44.5",
         "open": "CIN -1.5",
         "tickets": "58% CIN",
         "type": "RP1.0",
-        "insight": "CIN vs PIT: a 1.0-point reprice from open now sits at CIN -2.5. Test RT vs EDGE (red) against PIT's edge pressure before trusting the road favorite.",
+        "insight": "CIN @ PIT: a 1.0-point reprice from open now sits at CIN -2.5. Test RT vs EDGE (red) against PIT's edge pressure before trusting the road favorite.",
         "history": [
             {
                 "year": "2024", "week": "Wk 13", "score": "CIN 24 - PIT 19", "sim": "95.4%",
-                "reason": "Exact trench match. CIN interior pass protection held under 30% pressure rate. Sharp money backed CIN when line moved past -2.0."
+                "reason": "16D Vector Twin Match: Identical trench leverage profile. CIN interior protection held under 30% pressure rate. Sharp money backed CIN when line moved past -2.0."
             },
             {
                 "year": "2023", "week": "Wk 16", "score": "PIT 34 - CIN 11", "sim": "88.2%",
-                "reason": "Occurred when CIN RT win rate dropped below 45% (RT vs EDGE red condition), causing 3 turnovers in cold weather."
+                "reason": "Negative Twin Match: Triggered when CIN RT win rate dropped below 45% (RT vs EDGE red condition), leading to 3 turnovers under high-pressure scripts."
             }
         ],
         "field": {
-            "rt_edge_win_rate": "44% (VULNERABLE)",
-            "y_mike_win_rate": "68% (ADVANTAGE)",
-            "trench_summary": "PIT edge rushers generating +12.4% pressure above league average. CIN slot Y vs MIKE coverage mismatch offers quick-release counter."
+            "rt_edge_win_rate": "44% (VULNERABLE - RED SIGNAL)",
+            "y_mike_win_rate": "68% (ADVANTAGE - GREEN SIGNAL)",
+            "trench_summary": "PIT edge rushers generating +12.4% pressure above league baseline. CIN slot Y vs MIKE coverage mismatch offers quick-release counter to offset RT pressure."
         },
         "vegas": {
             "sharp_side": "CIN -2.5",
             "steam_move": "Steamed +1.0 pt at 09:15 EST",
-            "ticket_split": "58% Tickets / 79% Sharp Money on CIN",
-            "rlm_active": True
+            "ticket_split": "58% Public Tickets / 79% Sharp Money on CIN",
+            "rlm_active": "ACTIVE (Reverse Line Movement)"
         },
-        "gold_script": "CIN establishes tempo with quick slant passes targeting Y vs MIKE mismatches to neutralize PIT's pass rush. PIT answers with heavy run scripts. CIN pulls away late in the 4th with a closing drive. Projected Score: CIN 26 - PIT 20."
+        "whatif": {"base_spread": -2.5, "base_total": 44.5},
+        "parlay": {
+            "title": "Correlated Trench SGP",
+            "legs": [
+                "Cincinnati Bengals -2.5 Spread",
+                "Under 44.5 Total Points",
+                "PIT Pass Rush Over 2.5 Total Sacks"
+            ]
+        },
+        "gold_script": "CIN establishes early tempo with quick-release slant passes targeting Y vs MIKE mismatches to neutralize PIT's edge rush. PIT counters with heavy interior run scripts. CIN pulls away late in the 4th with a closing field goal drive. Projected Final Score: CIN 24 - PIT 20."
     },
     {
         "id": "lac_buf",
         "signal": 26,
-        "matchup": "LAC vs BUF",
+        "matchup": "LAC @ BUF",
         "spread": "BUF -7.0",
         "total": "50.5",
         "open": "BUF -7.0",
         "tickets": "64% BUF",
         "type": "BASE",
-        "insight": "LAC vs BUF: no clean market contradiction. Let Y vs MIKE (green) and RT vs EDGE (red) decide whether the saved price deserves trust.",
+        "insight": "LAC @ BUF: no clean market contradiction. Let Y vs MIKE (green) and RT vs EDGE (red) decide whether the saved price deserves trust.",
         "history": [
             {
                 "year": "2023", "week": "Wk 16", "score": "BUF 24 - LAC 22", "sim": "93.1%",
-                "reason": "High-total non-conference game. LAC covered +12.0 due to late backdoor drive against BUF soft-zone coverage."
+                "reason": "16D Vector Twin Match: High-total non-conference spot. LAC covered +12.0 due to late backdoor drive against BUF soft-zone coverage."
             }
         ],
         "field": {
             "rt_edge_win_rate": "52% (NEUTRAL)",
-            "y_mike_win_rate": "72% (ADVANTAGE)",
-            "trench_summary": "BUF offensive line holding top-5 pass block win rate. LAC must blitz >35% to generate pressure."
+            "y_mike_win_rate": "72% (ADVANTAGE - GREEN SIGNAL)",
+            "trench_summary": "BUF offensive line holding top-5 pass block win rate. LAC must blitz >35% to generate pressure, opening middle seams for BUF tight ends."
         },
         "vegas": {
             "sharp_side": "LAC +7.0",
             "steam_move": "Line locked at -7.0 despite 64% public tickets on BUF",
-            "ticket_split": "64% Tickets on BUF / 61% Money on LAC",
-            "rlm_active": True
+            "ticket_split": "64% Public Tickets on BUF / 61% Sharp Money on LAC",
+            "rlm_active": "ACTIVE (Reverse Line Movement)"
         },
-        "gold_script": "BUF controls early tempo with play-action passing. LAC stays inside the spread via high success rate on Y vs MIKE intermediate routes. Late BUF field goal wins it, but LAC covers. Projected Score: BUF 27 - LAC 23."
-    },
-    {
-        "id": "bal_dal",
-        "signal": 20,
-        "matchup": "BAL vs DAL",
-        "spread": "BAL -3.5",
-        "total": "48.5",
-        "open": "BAL -4.5",
-        "tickets": "71% BAL",
-        "type": "RP1.0",
-        "insight": "BAL vs DAL: a 1.0-point reprice against the public. Sharp money taking DAL +4.5 down to +3.5. Neutral site international spot.",
-        "history": [
-            {
-                "year": "2024", "week": "Wk 3", "score": "BAL 28 - DAL 25", "sim": "96.8%",
-                "reason": "BAL established 200+ rushing yards on gap-scheme runs. DAL staged late 4th quarter rally against soft secondary."
-            }
-        ],
-        "field": {
-            "rt_edge_win_rate": "61% (ADVANTAGE)",
-            "y_mike_win_rate": "55% (NEUTRAL)",
-            "trench_summary": "BAL gap-run blocking differential creates heavy mismatch against DAL light box defensive fronts."
+        "whatif": {"base_spread": -7.0, "base_total": 50.5},
+        "parlay": {
+            "title": "High Total Backdoor SGP",
+            "legs": [
+                "Los Angeles Chargers +7.0 Spread",
+                "Over 50.5 Total Points",
+                "LAC Quarterback Over 34.5 Pass Attempts"
+            ]
         },
-        "vegas": {
-            "sharp_side": "DAL +4.5 / Under 48.5",
-            "steam_move": "Repriced from BAL -4.5 to BAL -3.5",
-            "ticket_split": "71% Tickets on BAL / 68% Money on DAL",
-            "rlm_active": True
-        },
-        "gold_script": "BAL builds early lead using heavy QB-run option packages. DAL responds in the 2nd half with uptempo passing scripts. Tight finish down the stretch. Projected Score: BAL 24 - DAL 21."
+        "gold_script": "BUF controls early tempo with play-action passing. LAC stays inside the spread via high success rate on Y vs MIKE intermediate routes. Late BUF field goal secures the win, but LAC covers. Projected Final Score: BUF 27 - LAC 23."
     },
     {
         "id": "kc_mia",
         "signal": 15,
-        "matchup": "KC vs MIA",
+        "matchup": "KC @ MIA",
         "spread": "KC -4.5",
         "total": "49.5",
         "open": "KC -3.5",
         "tickets": "68% KC",
         "type": "RP1.0",
-        "insight": "KC vs MIA: a 1.0-point reprice from open now sits at KC -4.5. High-heat Miami environment tests trench conditioning late.",
+        "insight": "KC @ MIA: a 1.0-point reprice from open now sits at KC -4.5. High-heat Miami environment tests trench conditioning late in the 2nd half.",
         "history": [
             {
                 "year": "2023", "week": "Wk 9", "score": "KC 21 - MIA 14", "sim": "94.2%",
-                "reason": "Spagnuolo blitz scheme held MIA perimeter passing under 200 yards. KC controlled clock in 4th quarter."
+                "reason": "16D Vector Twin Match: Defensive blitz scheme held MIA perimeter passing under 200 yards. KC controlled clock in 4th quarter via tight-end option routes."
             }
         ],
         "field": {
             "rt_edge_win_rate": "58% (ADVANTAGE)",
-            "y_mike_win_rate": "74% (ADVANTAGE)",
-            "trench_summary": "KC interior line neutralizing MIA pass rush. KC tight end alignment vs MIA MIKE linebacker is primary green signal."
+            "y_mike_win_rate": "74% (ADVANTAGE - GREEN SIGNAL)",
+            "trench_summary": "KC interior line neutralizing MIA pass rush. KC tight end alignment vs MIA MIKE linebacker is primary green leverage signal."
         },
         "vegas": {
             "sharp_side": "KC -3.5 / Under 49.5",
             "steam_move": "Steamed +1.0 pt on KC",
-            "ticket_split": "68% Tickets / 74% Money on KC",
-            "rlm_active": False
+            "ticket_split": "68% Public Tickets / 74% Sharp Money on KC",
+            "rlm_active": "INACTIVE"
         },
-        "gold_script": "KC exploits Y vs MIKE mismatch early to build two-score cushion. MIA explosive plays limited by deep shell defense. KC covers line smoothly. Projected Score: KC 28 - MIA 20."
+        "whatif": {"base_spread": -4.5, "base_total": 49.5},
+        "parlay": {
+            "title": "Favored Road Control SGP",
+            "legs": [
+                "Kansas City Chiefs -4.5 Spread",
+                "Under 49.5 Total Points",
+                "KC Tight End Over 5.5 Receptions"
+            ]
+        },
+        "gold_script": "KC exploits Y vs MIKE mismatch early to build a two-score cushion. MIA explosive plays limited by deep shell defense. KC covers line smoothly. Projected Final Score: KC 28 - MIA 20."
+    },
+    {
+        "id": "bal_dal",
+        "signal": 20,
+        "matchup": "BAL @ DAL",
+        "spread": "BAL -3.5",
+        "total": "48.5",
+        "open": "BAL -4.5",
+        "tickets": "71% BAL",
+        "type": "RP1.0",
+        "insight": "BAL @ DAL: a 1.0-point reprice against the public. Sharp money taking DAL +4.5 down to +3.5 in neutral international site spot.",
+        "history": [
+            {
+                "year": "2024", "week": "Wk 3", "score": "BAL 28 - DAL 25", "sim": "96.8%",
+                "reason": "16D Vector Twin Match: BAL established 200+ rushing yards on gap-scheme runs. DAL staged late 4th quarter rally against soft secondary coverage."
+            }
+        ],
+        "field": {
+            "rt_edge_win_rate": "61% (ADVANTAGE)",
+            "y_mike_win_rate": "55% (NEUTRAL)",
+            "trench_summary": "BAL gap-run blocking differential creates heavy mismatch against DAL light-box defensive fronts."
+        },
+        "vegas": {
+            "sharp_side": "DAL +4.5 / Under 48.5",
+            "steam_move": "Repriced from BAL -4.5 to BAL -3.5",
+            "ticket_split": "71% Public Tickets on BAL / 68% Sharp Money on DAL",
+            "rlm_active": "ACTIVE (Reverse Line Movement)"
+        },
+        "whatif": {"base_spread": -3.5, "base_total": 48.5},
+        "parlay": {
+            "title": "Ground Control & Dog Cover SGP",
+            "legs": [
+                "Dallas Cowboys +3.5 Spread",
+                "Under 48.5 Total Points",
+                "BAL Team Rushing Over 165.5 Yards"
+            ]
+        },
+        "gold_script": "BAL builds early lead using heavy QB-run option packages. DAL responds in the 2nd half with uptempo passing scripts. Tight finish down the stretch. Projected Final Score: BAL 24 - DAL 21."
     },
     {
         "id": "sea_was",
         "signal": 21,
-        "matchup": "SEA vs WAS",
+        "matchup": "SEA @ WAS",
         "spread": "SEA -3.5",
         "total": "43.5",
         "open": "SEA -4.5",
         "tickets": "52% WAS",
         "type": "RP1.0",
-        "insight": "SEA vs WAS: a 1.0-point reprice sitting at SEA -3.5. Evaluate WAS QB mobility against SEA edge containment.",
+        "insight": "SEA @ WAS: a 1.0-point reprice sitting at SEA -3.5. Evaluate WAS QB mobility against SEA edge containment before taking road favorite.",
         "history": [
             {
                 "year": "2023", "week": "Wk 10", "score": "SEA 29 - WAS 26", "sim": "91.7%",
-                "reason": "Both teams traded 4th quarter leads. SEA won on walk-off FG. Game pace exceeded initial projections."
+                "reason": "16D Vector Twin Match: Both teams traded 4th quarter leads. SEA won on walk-off FG. Game pace exceeded initial projections."
             }
         ],
         "field": {
-            "rt_edge_win_rate": "46% (VULNERABLE)",
+            "rt_edge_win_rate": "46% (VULNERABLE - RED SIGNAL)",
             "y_mike_win_rate": "62% (ADVANTAGE)",
             "trench_summary": "SEA edge pressure forces WAS into short-passing game scripts."
         },
         "vegas": {
             "sharp_side": "WAS +4.5",
             "steam_move": "Line dropped from -4.5 to -3.5",
-            "ticket_split": "52% Tickets / 63% Money on WAS",
-            "rlm_active": True
+            "ticket_split": "52% Public Tickets / 63% Sharp Money on WAS",
+            "rlm_active": "ACTIVE (Reverse Line Movement)"
         },
-        "gold_script": "Gritty, low-scoring battle through three quarters. SEA capitalizes on late turnover to secure victory, but WAS covers the +3.5 spread. Projected Score: SEA 23 - WAS 20."
+        "whatif": {"base_spread": -3.5, "base_total": 43.5},
+        "parlay": {
+            "title": "Underdog Trench SGP",
+            "legs": [
+                "Washington Commanders +3.5 Spread",
+                "Under 43.5 Total Points",
+                "SEA Defense Over 2.5 Total Sacks"
+            ]
+        },
+        "gold_script": "Gritty, low-scoring battle through three quarters. SEA capitalizes on late turnover to secure victory, but WAS covers the +3.5 spread. Projected Final Score: SEA 23 - WAS 20."
     },
     {
         "id": "nyj_det",
         "signal": 26,
-        "matchup": "NYJ vs DET",
+        "matchup": "NYJ @ DET",
         "spread": "DET -6.5",
         "total": "47.5",
         "open": "DET -6.5",
         "tickets": "61% DET",
         "type": "BASE",
-        "insight": "NYJ vs DET: indoor track at Ford Field. DET O-Line dominance vs NYJ interior defensive line dictates line validity.",
+        "insight": "NYJ @ DET: indoor track at Ford Field. DET O-Line dominance vs NYJ interior defensive line dictates line validity.",
         "history": [
             {
                 "year": "2022", "week": "Wk 15", "score": "DET 20 - NYJ 17", "sim": "89.9%",
-                "reason": "NYJ defense kept game within striking distance despite low offensive success rate."
+                "reason": "16D Vector Twin Match: NYJ defense kept game within striking distance despite low offensive success rate."
             }
         ],
         "field": {
             "rt_edge_win_rate": "65% (ADVANTAGE)",
-            "y_mike_win_rate": "69% (ADVANTAGE)",
+            "y_mike_win_rate": "69% (ADVANTAGE - GREEN SIGNAL)",
             "trench_summary": "DET O-Line holds major win-rate advantage across all 5 starting offensive line spots."
         },
         "vegas": {
             "sharp_side": "DET -6.5",
             "steam_move": "Stable at -6.5",
-            "ticket_split": "61% Tickets / 67% Money on DET",
-            "rlm_active": False
+            "ticket_split": "61% Public Tickets / 67% Sharp Money on DET",
+            "rlm_active": "INACTIVE"
         },
-        "gold_script": "DET utilizes play-action heavy scripts to attack NYJ linebackers. DET controls line of scrimmage for four quarters. Projected Score: DET 30 - NYJ 20."
+        "whatif": {"base_spread": -6.5, "base_total": 47.5},
+        "parlay": {
+            "title": "Dome Dominance SGP",
+            "legs": [
+                "Detroit Lions -6.5 Spread",
+                "Over 47.5 Total Points",
+                "DET Team Total Over 26.5 Points"
+            ]
+        },
+        "gold_script": "DET utilizes play-action heavy scripts to attack NYJ linebackers. DET controls line of scrimmage for four quarters. Projected Final Score: DET 30 - NYJ 20."
     }
 ]
 
@@ -214,12 +268,13 @@ def serve_dashboard():
         :root {
             --bg: #000000;
             --panel: #111111;
-            --border: #333333;
+            --border: #2e2e2e;
             --text: #f5f5f5;
             --muted: #888888;
             --green: #22c55e;
             --red: #ef4444;
             --accent: #d97706;
+            --mono-font: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
         }
         body { 
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -253,7 +308,7 @@ def serve_dashboard():
         .card-footer { padding: 1rem; font-size: 0.875rem; color: #aaaaaa; line-height: 1.5; }
         
         .label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 0.25rem; font-weight: bold;}
-        .val { font-size: 1rem; font-weight: bold; font-family: monospace; }
+        .val { font-size: 1rem; font-weight: bold; font-family: var(--mono-font); }
         .signal-badge { font-size: 0.75rem; font-weight: bold; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
         
         #slate-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; max-width: 1200px; margin: 0 auto; }
@@ -274,7 +329,7 @@ def serve_dashboard():
                 Y.E.S. SPORTS
                 <span style="font-size: 0.75rem; font-weight: normal; color: var(--muted); letter-spacing: 0; margin-left: 1rem;">See the game &middot; read the price &middot; test the story</span>
             </div>
-            <div id="active-pill" style="font-size:0.75rem; font-family:monospace; color:var(--accent); background:#1a1000; padding:0.4rem 0.8rem; border:1px solid var(--accent); display:none;">
+            <div id="active-pill" style="font-size:0.75rem; font-family:var(--mono-font); color:var(--accent); background:#1a1000; padding:0.4rem 0.8rem; border:1px solid var(--accent); display:none;">
                 ACTIVE: NONE
             </div>
         </div>
@@ -296,7 +351,7 @@ def serve_dashboard():
         <div id="tab-slate" class="tab-content active">
             <div style="max-width: 1200px; margin: 0 auto 2rem auto;">
                 <h2 style="margin:0 0 0.25rem 0; font-size: 1.25rem;">FULL SLATE: SUN SEPT 27, 2026 (WEEK 3)</h2>
-                <p style="margin:0; color: var(--muted); font-size: 0.875rem;">All 16 games. One research board. Select any matchup to load historical vectors and trench indicators into all tabs.</p>
+                <p style="margin:0; color: var(--muted); font-size: 0.875rem;">All 16 games. One research board. Select any matchup to immediately propagate historical vector twins and trench indicators into all tabs.</p>
             </div>
             <div id="slate-grid"></div>
         </div>
@@ -320,7 +375,7 @@ def serve_dashboard():
                         <div class="card-footer" id="mu-insight"></div>
                     </div>
 
-                    <h3 style="margin: 2rem 0 1rem 0; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem;">HISTORICAL ARCHIVE TWINS (GAME DNA v2)</h3>
+                    <h3 style="margin: 2rem 0 1rem 0; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem;">HISTORICAL ARCHIVE TWINS (16D GAME DNA v2)</h3>
                     <div id="mu-history"></div>
                 </div>
             </div>
@@ -333,15 +388,15 @@ def serve_dashboard():
                 <div id="field-empty" style="color: var(--muted);">SELECT A MATCHUP FROM THE FULL SLATE TO LOAD TRENCH DATA</div>
                 <div id="field-data" style="display:none;">
                     <div class="card" style="padding: 2rem; text-align: center;">
-                        <p style="font-family: monospace; color: var(--muted); margin-bottom: 1.5rem;">[ 11V11 TRENCH COMBAT MATRIX ]</p>
+                        <p style="font-family: var(--mono-font); color: var(--muted); margin-bottom: 1.5rem;">[ 11V11 TRENCH COMBAT MATRIX ]</p>
                         <div style="display: flex; justify-content: space-around; align-items: center; background: #000; border: 1px solid var(--border); padding: 1.5rem; margin-bottom: 1.5rem;">
                             <div>
-                                <div class="label">RT vs EDGE</div>
+                                <div class="label">RT vs EDGE SIGNAL</div>
                                 <div class="val" id="field-rt-edge" style="font-size:1.1rem;"></div>
                             </div>
                             <div style="border-left: 1px solid var(--border); height: 40px;"></div>
                             <div>
-                                <div class="label">Y vs MIKE</div>
+                                <div class="label">Y vs MIKE SIGNAL</div>
                                 <div class="val" id="field-y-mike" style="font-size:1.1rem;"></div>
                             </div>
                         </div>
@@ -363,9 +418,13 @@ def serve_dashboard():
                             <div class="label">STEAM ACTION</div>
                             <div class="val" id="vegas-steam"></div>
                         </div>
-                        <div style="padding: 1rem;">
-                            <div class="label">PUBLIC VS SHARP SPLIT</div>
+                        <div style="padding: 1rem; border-bottom: 1px solid var(--border);">
+                            <div class="label">PUBLIC VS SHARP MONEY SPLIT</div>
                             <div class="val" id="vegas-split"></div>
+                        </div>
+                        <div style="padding: 1rem;">
+                            <div class="label">REVERSE LINE MOVEMENT STATUS</div>
+                            <div class="val" style="color:var(--accent);" id="vegas-rlm"></div>
                         </div>
                     </div>
                 </div>
@@ -380,14 +439,14 @@ def serve_dashboard():
                 <div id="whatif-data" style="display:none;">
                     <div class="slider-box">
                         <div style="display:flex; justify-content:space-between; margin-bottom:0.5rem;">
-                            <span class="label">WEATHER SEVERITY (WIND/RAIN)</span>
+                            <span class="label">WEATHER SEVERITY COEFFICIENT (WIND/RAIN)</span>
                             <span class="val" id="val-wx">0%</span>
                         </div>
                         <input type="range" id="slide-wx" min="0" max="100" value="0" oninput="calcWhatIf()">
                     </div>
                     <div class="slider-box">
                         <div style="display:flex; justify-content:space-between; margin-bottom:0.5rem;">
-                            <span class="label">O-LINE INJURY IMPACT</span>
+                            <span class="label">O-LINE INJURY IMPACT FACTOR</span>
                             <span class="val" id="val-inj">BASE</span>
                         </div>
                         <input type="range" id="slide-inj" min="0" max="100" value="0" oninput="calcWhatIf()">
@@ -407,7 +466,7 @@ def serve_dashboard():
                 <div id="parlay-empty" style="color: var(--muted);">SELECT A MATCHUP FROM THE FULL SLATE TO GENERATE CORRELATED SGP BUILD</div>
                 <div id="parlay-data" style="display:none;">
                     <div class="card" style="border-left: 3px solid var(--green);">
-                        <div class="card-header"><span class="label">SGP RECOMMENDATION</span><span class="val" style="color:var(--green);">+380 ODDS</span></div>
+                        <div class="card-header"><span class="label" id="parlay-title">CORRELATED SGP BUILD</span><span class="val" style="color:var(--green);">+380 ODDS</span></div>
                         <div style="padding: 1rem; line-height: 1.8;" id="parlay-legs"></div>
                     </div>
                 </div>
@@ -419,7 +478,7 @@ def serve_dashboard():
             <div style="max-width: 800px; margin: 0 auto;">
                 <h3 style="margin: 0 0 1rem 0; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem;">POST GAME ACCURACY GRADING</h3>
                 <div class="card" style="padding: 1rem;">
-                    <div class="label">MODEL YTD RECORD</div>
+                    <div class="label">16D VECTOR MODEL YTD ACCURACY</div>
                     <div class="val" style="color:var(--green); font-size: 1.5rem;">24-11 ATS (68.5%)</div>
                     <p style="color: var(--muted); font-size:0.875rem; margin-top:0.5rem;">Grades automatically update following Sunday night and Monday night game completions.</p>
                 </div>
@@ -433,7 +492,7 @@ def serve_dashboard():
                 <div id="gold-empty" style="color: var(--muted);">SELECT A MATCHUP FROM THE FULL SLATE TO GENERATE SCRIPT</div>
                 <div id="gold-data" style="display:none;">
                     <div class="card" style="border: 1px solid var(--accent); padding: 1.5rem;">
-                        <div class="label" style="color:var(--accent);">SYNTHESIZED SCRIPT NARRATIVE</div>
+                        <div class="label" style="color:var(--accent);">SYNTHESIZED NARRATIVE FORECAST</div>
                         <p style="font-size: 1.1rem; line-height: 1.6; margin: 1rem 0; color:#fff;" id="gold-text"></p>
                     </div>
                 </div>
@@ -515,8 +574,8 @@ def serve_dashboard():
             histDiv.innerHTML = activeGame.history.map(h => `
                 <div class="card" style="border-left: 3px solid var(--accent);">
                     <div style="padding: 1rem; border-bottom: 1px solid var(--border); display:flex; justify-content:space-between; align-items:center;">
-                        <strong style="font-family:monospace; font-size:1.1rem;">${h.year} ${h.week} &middot; ${h.score}</strong>
-                        <span style="background:#1a1000; color:var(--accent); padding: 0.25rem 0.5rem; font-family:monospace; border:1px solid var(--accent); font-size:0.8rem; font-weight:bold;">${h.sim} MATCH</span>
+                        <strong style="font-family:var(--mono-font); font-size:1.1rem;">${h.year} ${h.week} &middot; ${h.score}</strong>
+                        <span style="background:#1a1000; color:var(--accent); padding: 0.25rem 0.5rem; font-family:var(--mono-font); border:1px solid var(--accent); font-size:0.8rem; font-weight:bold;">${h.sim} MATCH</span>
                     </div>
                     <div style="padding: 1rem; color: #ddd; font-size: 0.875rem; line-height: 1.6;">
                         <span class="label" style="display:block; margin-bottom:0.25rem; color:var(--accent);">GAME DNA SCRIPT MATCH:</span>
@@ -528,7 +587,7 @@ def serve_dashboard():
             // Populate 11v11 Field Tab
             document.getElementById('field-empty').style.display = 'none';
             document.getElementById('field-data').style.display = 'block';
-            document.getElementById('field-rt-edge').innerHTML = activeGame.field.rt_edge_win_rate.includes('VULNERABLE') ? `<span class="text-hl-red">${activeGame.field.rt_edge_win_rate}</span>` : activeGame.field.rt_edge_win_rate;
+            document.getElementById('field-rt-edge').innerHTML = activeGame.field.rt_edge_win_rate.includes('RED') ? `<span class="text-hl-red">${activeGame.field.rt_edge_win_rate}</span>` : activeGame.field.rt_edge_win_rate;
             document.getElementById('field-y-mike').innerHTML = `<span class="text-hl-green">${activeGame.field.y_mike_win_rate}</span>`;
             document.getElementById('field-summary').innerHTML = activeGame.field.trench_summary;
 
@@ -538,6 +597,7 @@ def serve_dashboard():
             document.getElementById('vegas-side').innerText = activeGame.vegas.sharp_side;
             document.getElementById('vegas-steam').innerText = activeGame.vegas.steam_move;
             document.getElementById('vegas-split').innerText = activeGame.vegas.ticket_split;
+            document.getElementById('vegas-rlm').innerText = activeGame.vegas.rlm_active;
 
             // Populate What-If Island
             document.getElementById('whatif-empty').style.display = 'none';
@@ -549,11 +609,8 @@ def serve_dashboard():
             // Populate Parlay Lab
             document.getElementById('parlay-empty').style.display = 'none';
             document.getElementById('parlay-data').style.display = 'block';
-            document.getElementById('parlay-legs').innerHTML = `
-                &bull; <strong>Leg 1:</strong> ${activeGame.matchup.split(' ')[0]} ${activeGame.spread}<br>
-                &bull; <strong>Leg 2:</strong> Under ${activeGame.total} Total Points<br>
-                &bull; <strong>Leg 3:</strong> Matchup Trench Props (Pass Rush Over 2.5 Sacks)
-            `;
+            document.getElementById('parlay-title').innerText = activeGame.parlay.title.toUpperCase();
+            document.getElementById('parlay-legs').innerHTML = activeGame.parlay.legs.map(leg => `&bull; <strong>Leg:</strong> ${leg}<br>`).join('');
 
             // Populate Gold Script
             document.getElementById('gold-empty').style.display = 'none';
@@ -572,7 +629,7 @@ def serve_dashboard():
             document.getElementById('val-wx').innerText = wx + '%';
             document.getElementById('val-inj').innerText = inj > 50 ? 'SEVERE' : (inj > 20 ? 'MODERATE' : 'BASE');
 
-            let orig = parseFloat(activeGame.spread.split(' ')[1]) || -3.0;
+            let orig = activeGame.whatif.base_spread;
             let adj = orig + (inj * 0.03) + (wx * 0.01);
             document.getElementById('wi-res-spread').innerText = (adj > 0 ? '+' : '') + adj.toFixed(1);
         }
